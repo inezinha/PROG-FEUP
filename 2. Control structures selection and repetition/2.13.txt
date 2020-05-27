@@ -1,0 +1,150 @@
+2.13 a)
+
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int num,len,digit,i=0,sum=0,mean,sum1=0,max=-9999999,min=99999999;
+    double std_dev;
+    cout <<"Enter the lenght of the number: "; cin>>len;
+    cout <<"Enter the number: "; cin>>num;
+    
+    int digits[len];
+    int len_static=len;
+   
+    while(len>0){
+        digit = num%10;
+        num /= 10;
+        len --;
+        digits[i] = digit;
+        i++;
+    }
+    
+    for (int i = 0; i < len_static; i++) { //sum of the digits inside array
+    sum += digits[i];
+    }
+    
+    mean = sum/len_static;
+    
+    for (int i = 0; i < len_static; i++) { 
+    sum1 += pow((digits[i]-mean),2);
+    }
+     
+    std_dev = sqrt(sum1/len_static);
+    
+    for (int i= 0; i<len_static; i++){
+        if (digits[i]>max){
+            max = digits[i];
+        }
+        if (digits[i]<min){
+            min = digits[i];
+        }
+    }
+    
+    cout << "The sum of the digits is: " << sum <<endl;
+    cout << "The mean of the digits is: "<< mean <<endl;
+    cout << "The standard deviation is: "<< std_dev<<endl;
+    //cout << "The largest number is: " << *max_element(digits , digits + len_static) << endl;
+    //cout << "The smallest number is: " << *min_element(digits , digits + len_static) << endl;
+    cout << "The largest number is: " << max << endl;
+    cout << "The smallest number is: " << min << endl;
+
+    return 0;
+    
+}
+
+------------------------------------------------------------------------------------------------------------------------
+
+2.13 b)
+
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int num,len=0,sum=0,max=-9999999,min=99999999;
+    double std_dev,mean,sum_power;
+    
+    while(true){
+        
+        cout <<"Enter the number ('0' to finish): ";//dentro do while para perguntar várias
+        cin>>num;                                   //vezes até receber o '0' para parar
+       
+       if (num == 0) // condição de paragem
+           break;
+       
+       if (num > max) //encontrar o max
+           max = num;
+      
+       if (num < min) //encontraro min
+           min = num;
+       
+       len ++;       //incrementar a lenght 
+       sum += num;
+       sum_power += pow(num,2);
+   }
+    mean = sum/len;
+    std_dev= sqrt((sum_power - 2*sum*mean + pow(mean,2)*len)/len);
+      
+    cout << "The sum of the digits is: " << sum <<endl;
+    cout << "The mean of the digits is: "<< mean <<endl;
+    cout << "The standard deviation is: "<< std_dev<<endl;
+    cout << "The largest number is: " << max << endl;
+    cout << "The smallest number is: " << min << endl;
+
+    return 0;
+    
+}
+
+---------------------------------------------------------------------------------
+
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int num,len=0,sum=0,max=-9999999,min=99999999;
+    double std_dev,mean,sum_power;
+    
+    while(true){
+        
+        cout <<"Enter the number ('CTRL-Z' to finish): ";//dentro do while para perguntar várias
+        cin>>num;                                   
+       
+       if (cin.fail()) {
+			if (cin.eof())
+			    break;
+		}
+       
+       if (num > max) //encontrar o max
+           max = num;
+      
+       if (num < min) //encontraro min
+           min = num;
+       
+       len ++;       //incrementar a lenght 
+       sum += num;
+       sum_power += pow(num,2);
+   }
+    mean = sum/len;
+    std_dev= sqrt((sum_power - 2*sum*mean + pow(mean,2)*len)/len);
+      
+    cout << "The sum of the digits is: " << sum <<endl;
+    cout << "The mean of the digits is: "<< mean <<endl;
+    cout << "The standard deviation is: "<< std_dev<<endl;
+    cout << "The largest number is: " << max << endl;
+    cout << "The smallest number is: " << min << endl;
+
+    return 0;
+    
+}

@@ -1,0 +1,36 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <random>
+#include <time.h>
+#include <conio.h>
+
+using namespace std;
+
+int main()
+{
+    int max=9,min=2,result,n1,n2,asking_time,answer_time,timecount;
+    srand(time(NULL));
+    n1 = rand()%(max-min+1)+min;
+    n2 = rand()%(max-min+1)+min;
+    asking_time = time(NULL);
+    cout<<"( "<<n1<<" x "<<n2<<" )= "; cin>>result;
+    answer_time = time(NULL);
+    timecount = answer_time - asking_time;
+    
+    if (result != (n1*n2)){
+        cout << "Very Bad";
+    }
+    else{
+        if (timecount < 5){
+            cout << "GOOD";
+        }
+        else if (timecount < 10){
+            cout << "Satisfactory";
+        }  
+        else{
+            cout << "Insufficient";
+        }
+    }
+    return 0;
+}

@@ -1,0 +1,29 @@
+#include <iostream>
+#include <stdio.h>   
+#include <math.h> 
+
+using namespace std;
+
+double sqroot(int n,double delta,int nMaxIter){
+    int i=0;
+    double rq=1,dif,rqn;
+    while(dif<delta && i<nMaxIter){
+        rqn = (rq + n / rq)/2;
+        rq = rqn;
+        dif = n-pow(rqn,2);
+        i++;
+    }
+    return rq;
+}
+
+int main()
+{
+    int n,nMaxIter;
+    double delta;
+    
+    cout<<"Enter a number: "; cin>>n;
+    cout<<"Enter the value of delta: "; cin>>delta;
+    cout<<"Enter the max number of iterations: "; cin>>nMaxIter;
+    cout<<"The approximate value of the square root of "<< n << " is: "<<sqroot(n,delta,nMaxIter);
+    return 0;
+}

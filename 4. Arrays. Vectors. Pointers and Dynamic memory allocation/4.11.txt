@@ -1,0 +1,83 @@
+4.11 a)
+
+#include <iostream>
+#include <vector>
+#include <time.h>
+
+using namespace std;
+
+int comparator(const void *a, const void *b) { //função que compara os valores dentro do array
+    return (*(int*)a - *(int*)b); 
+}
+
+int main() {
+    int inesoca[5] = { 31,99,-45,9,0}; //array e seus valores
+    size_t num = 5; //tamanho do array
+    qsort((void*)&inesoca, 5, sizeof(int), comparator);
+    for (int i = 0; i < 5; i++) {
+        cout << inesoca[i] << endl;
+    }
+    return 0;
+}
+
+//The function takes a void*, but it knows that the pointer it's given actually points to an int.
+//So, (int*)number is "the original pointer, converted to an int* 
+//so that I can read an int from it", and *(int*)number is the int value that it points to.
+
+
+//(int *) is an int pointer OR "pointer to an int" 
+//Whenever you see * in your code, read it as "what is pointed to by"
+
+                          //If you follow this pattern, then:
+                              //int num = *(int *)number;  // *(int*)number returns the value that *number is pointing to
+
+//"num" is an integer variable that gets assigned the value: what is pointed to by an int pointer, number.
+ 
+---------------------------------------------------------------------------------------
+
+4. 11 b)
+
+#include <iostream>
+#include <vector>
+#include <time.h>
+
+using namespace std;
+
+int comparator(const void *a, const void *b) {
+    return (*(int*)b - *(int*)a);
+}
+
+int main() {
+    int inesoca[5] = { 31,99,-45,9,0};
+    size_t num = 5;
+    qsort((void*)&inesoca, 5, sizeof(int), comparator);
+    for (int i = 0; i < 5; i++) {
+        cout << inesoca[i] << endl;
+    }
+    return 0;
+}
+
+--------------------------------------------------------------------------------------
+
+4.11 c)´
+
+#include <iostream>
+#include <vector>
+#include <time.h>
+using namespace std;
+
+int comparator(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
+}
+int main() {
+    int array[6] = { 1, 3, 5, 4 , 2, -1};
+    size_t num = 6;
+    int middle = (num/2)-1;
+    qsort(array, middle, sizeof(int), comparator);
+    qsort(&array[middle + 1], num - middle - 1, sizeof(int), comparator);
+    for (int i = 0; i < num; i++) {
+        cout << array[i] << endl;
+    }
+    return 0;
+}
+

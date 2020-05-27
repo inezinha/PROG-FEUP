@@ -1,0 +1,122 @@
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+bool isLeap(int year) {
+    return (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0));
+}
+
+int numberDays(int month, int year) {
+    switch (month) {
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+            return 31;
+        case 2:
+            return isLeap(year) ? 29 : 28;
+        case 4: case 6: case 9: case 11:
+            return 30;
+        default:
+            cout << "Invalid month." << endl;
+            break;
+    }
+    return 0;
+}
+
+double avgDaily(const vector<vector<int>>&data, int numDays) {
+    double sum = 0;
+    for (int i=0; i<data.size();i++){ //iterar pelos meses
+        for (int j=0; j<data[i].size();j++){ //iterar pelos dias de cada mês
+            sum += data[i][j]; //somae os valores de pluviosidade
+        }
+    }
+    return sum / numDays; //calcular a média
+}
+
+void avgMonthly(const vector<vector<int>>&data, int year) {
+    vector<int>output;
+    for (int i = 0; i < data.size(); ++i) { //iterar pelos meses
+        int Sum = 0; //pôr a zero porque queremos só mensalmente
+        for (int j = 0; j < data[i].size(); ++j) { //iterar pelos dias dos meses
+            Sum += data[i][j]; //somar a pluviosidade
+        }
+        double value = (double) Sum / numberDays(i+1,year); //valor médio de pluviosidade do mês
+        output.push_back(value); //guardar esse valor neste array
+        cout << value << "\t";
+    }
+    cout << endl;
+}
+
+void maxDay(const vector<vector<int>>&data) {
+    vector<int>year;
+    vector<int>month;
+    int max=0;
+    for (int i = 0; i < data.size(); ++i) { //iterar pelos meses do ano
+        int currMax = 0; //iniciar o max a 0
+        int currDay = 0;
+        for (int j = 0; j < data[i].size(); ++j) { //iterar por cada dia de cada mês
+            if (data[i][j] > currMax){ //se a pluviosidade de data[i][j] for maior que curr max
+                currMax = data[i][j]; // trocamos o valor antigo por este
+                currDay = j; //o dia é o j
+            }
+        }
+        month.push_back(currDay+1); //currday+1 porque o índice começa a 0 mas os meses começam a 1 então é +1 //isto dá o valor max de cada mês
+    }
+    int mes;
+    for (int i=0;i<month.size();i++){
+        if (month[i]>max)
+            max=month[i];
+            mes = i;
+    }
+    cout << max << " " << mes << endl;
+}
+
+vector<vector<int>> aboveAvg(const vector<vector<int>> &data, int numDays) {
+    double avg = avgDaily(data, numDays);
+    vector<vector<int>> answer;
+    for (int i = 0; i < data.size(); i ++) {
+        for (int j = 0; j < data[i].size(); j ++) {
+            if (data[i][j] > avg) {
+                answer.push_back({j + 1, i + 1}); //guarda no vetor o DIA e MÊS dos dias com pluviosidade acima da média
+            }
+        }
+    }
+    return answer;
+}
+
+void readYear(vector<vector<int>>&data, int year) {
+    for (int i = 0; i <= 11; i ++) { //iterar pelos 12 meses do ano
+        vector<int>month(numberDays(i+1, year)); //criar array com nº de dias do mês i
+        for (int d = 0; d < numberDays(i+1, year); d ++) { //iterar por cada dia do mês i
+            month[d] = rand() % 101; //atribuir um valor aleatório a cada dia do ano
+        }
+        data[i] = month; // meter esses valores no array data
+    }
+}
+
+int main() {
+    int year, numDays;
+    cout << "Enter the year: "; cin >> year;
+    if (isLeap(year))
+        numDays= 366;
+    else
+        numDays = 365;
+    vector<vector<int>> data(12);
+    readYear(data, year);
+    cout << "Daily Average: " << avgDaily(data, numDays) <<endl;
+    cout << "Monthly Average: ";
+    avgMonthly(data,year);
+    cout<<endl;
+    cout<< "The day with the most pluviosity in "<<year<<" was :";
+    maxDay(data);
+    cout << endl;
+    vector<vector<int>> aboveAvgDays = aboveAvg(data, numDays);
+    cout << "Days with pluviosity above average: ";
+    for (const auto & i : aboveAvgDays) {
+        for (int j : i) {
+            cout << j << " ";
+        }
+        cout << ", ";
+    }
+    cout << '\n';
+}

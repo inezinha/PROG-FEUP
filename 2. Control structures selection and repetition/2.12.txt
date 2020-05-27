@@ -1,0 +1,22 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+    double sum = 0, prec;
+    int i = 0;
+    cout << "precision: "; cin >> prec;
+    
+    while (1){
+        double bef_sum = sum;
+        sum += 4/(2*i+1)*pow(-1,i);
+        i++;
+        if (fabs(sum - bef_sum) <= fabs(prec)){
+            break;
+        }
+    }
+    cout << sum;
+    return 0;
+}

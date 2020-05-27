@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+bool readInt(int &x){
+     cin >> x;
+     if (!cin || !(isdigit(cin.peek()) || cin.peek() == '\n')) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        return false;
+     }
+     else{
+        cin.clear();
+        cin.ignore(9999, '\n');
+        return true;
+     }
+}
+
+
+int main(){
+    int x;
+    cout << "Enter a number: "<< endl; 
+    if (readInt(x)){
+        cout << x <<" is a valid input :D ";
+    }
+    else{
+        cout<<"it is an invalid input :(((";
+    }
+    return 0;
+}

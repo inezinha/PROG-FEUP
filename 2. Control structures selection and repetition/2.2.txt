@@ -1,0 +1,170 @@
+2.2 a)
+
+#include <iostream>
+
+using namespace std;
+
+int main(){
+    int x,y,z,maior,menor;
+    cout << "Enter 3 numbers (x y z): "; cin >> x;
+    while (!cin >> x){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout <<"Invalid input! Try again: ";
+        cin >> x;
+    }
+    
+    cin >> y;
+    while (!cin >> y){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout <<"Invalid input! Try again: ";
+        cin >> y;
+    }
+    
+    cin >> z;
+    while (!cin >> z){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout <<"Invalid input! Try again: ";
+        cin >> z;
+    }
+    
+    maior = x;
+    if (y > maior){
+        maior = y;
+    }
+    if (z > maior){
+        maior = z;
+    }
+    
+    menor = y ;
+    if (x < menor){
+        menor = x;
+    }
+    if (z < menor){
+        menor = z;
+    }
+    
+    cout << "The largest number is: "<< maior<<endl;
+    cout << "The smallest number is: "<< menor;
+    return 0;
+}
+
+
+2.2 b)
+
+#include <iostream>
+
+using namespace std;
+
+int main(){
+    int x,y,z,maior,menor,meio;
+    cout << "Enter 3 numbers (x y z): "; cin >> x;
+    while (!cin >> x){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout <<"Invalid input! Try again: ";
+        cin >> x;
+    }
+    
+    cin >> y;
+    while (!cin >> y){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout <<"Invalid input! Try again: ";
+        cin >> y;
+    }
+    
+    cin >> z;
+    while (!cin >> z){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout <<"Invalid input! Try again: ";
+        cin >> z;
+    }
+    
+    maior = x;
+    if (y > maior){
+        maior = y;
+    }
+    if (z > maior){
+        maior = z;
+    }
+    
+    menor = y ;
+    if (x < menor){
+        menor = x;
+    }
+    if (z < menor){
+        menor = z;
+    }
+    
+    if (menor !=z  && maior!= z){
+        meio = z;
+    }
+    
+    if ( menor!=y && maior!=y ){
+        meio = y;
+    }
+    
+    if (menor!=y &&  maior!=y){
+        meio = y;
+    }
+    
+    cout << "The numbers in descending order: "<< maior<< " " <<meio<<" "<<menor;
+    
+    return 0;
+}
+
+2.2 c)
+
+#include <iostream>
+
+using namespace std;
+
+int main(){
+    int x,y,z,maior,menor,meio;
+    cout << "Enter 3 numbers (x y z): "; cin >> x;
+    while (!cin >> x || x <0 ){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout <<"Not a positive integer! Try again: ";
+        cin >> x;
+    }
+    
+    cin >> y;
+    while (!cin >> y || y<0){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout <<"Not a positive integer! Try again: ";
+        cin >> y;
+    }
+    
+    cin >> z;
+    while (!cin >> z || z<0){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout <<"Not a positive integer! Try again: ";
+        cin >> z;
+    }
+    
+    maior = x;
+    if (y > maior){
+        maior = y;
+    }
+    if (z > maior){
+        maior = z;
+    }
+    
+    
+    if ( (maior==z && x+y<z) || (maior==y && z+x<y) || (maior==x && z+y<x) ){
+        cout << "It is impossible to build a triangle with those lengts.";
+    }
+    
+    else{
+        cout << "It is possible to build a triangle.";
+    }
+  
+    return 0;
+}

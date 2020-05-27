@@ -1,0 +1,166 @@
+4.3 ab)
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void bubbleSort(vector<int>& v) {
+	int first, second;
+	for (int i=0; i<v.size(); i++) {
+		for (int j=0; j<v.size()-1-i; j++) {
+			first = v[j];
+			second = v[j + 1];
+			if (first > second) {
+				v[j] = second;
+				v[j+1] = first;
+			}
+		}
+	}
+}
+
+int main() {
+	vector<int>v = { 111,22,99,0,1,2,77,-22};
+	bubbleSort(v);
+	for (int i=0; i<v.size(); i++) {
+		cout<<"index: "<<i<<"   "<<"value: "<<v[i]<<endl;
+	}
+	return 0;
+}
+
+----------------------------------------------------------------------------------------
+
+4.3 c)
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void bubbleSort(vector<int>& v) {
+	vector<int>aux;
+	bool change;
+	int first, second;
+
+	for (int i = 0; i < v.size(); i++) { //número de vezes que vamos iterar dentro do vetor
+
+		change = false;  //inicializar isto a falso e quando há mudanças por true para continuar e só quando se mantem falso retorno o valor porque quer dizer que não houve mudanças
+		aux.clear();    //limpar o vetor a cada iteração 
+
+		for (int i = 0; i < v.size(); i++)
+			aux.push_back(v[i]); //atualizar com a nova ordem dos valores para ir comparando :D
+			
+		for (int j = 0; j < v.size() - 1 - i; j++) {
+			first = v[j];
+			second = v[j + 1];
+			if (first > second) { //para ordem ascendente
+				v[j] = second;
+				v[j + 1] = first;
+			}
+		}
+		
+		cout << i <<endl; //perceber quantas iterações foram necessárias para pôr os valores em ordem :D
+
+		for (int i = 0; i < v.size(); i++) { 
+			if (v[i] != aux[i]) {
+				change = true; //houve mudanças por isso temos que continuar a iterar 
+				break; //fazemos break porque ao haver pelo menos uma mudança já quer dizer que houve MUDANÇA CHANGE
+			}
+		}
+		if (!change) //não há mais mudanças por isso posso parar de iterar
+			return;
+		
+	}
+}
+
+int main() {
+	vector<int>v1 = {-2,-99,0,33,77,12,9};
+	bubbleSort(v1);
+	for (int i = 0; i < v1.size(); i++) {
+		cout << v1[i] <<",";
+	}
+	return 0;
+}
+
+-------------------------------------------------------------------------------
+
+4.3 d)
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void bubbleSort(vector<int>& v, char order) {
+	int first, second;
+	for (int i = 0; i < v.size(); i++) { //número de vezes que vamos iterar dentro do vetor
+		for (int j = 0; j < v.size() - 1 - i; j++) {
+			first = v[j];
+			second = v[j + 1];
+			if (first > second) { //para ordem ascendente
+				if (order == 'a') {
+					v[j] = second;
+					v[j + 1] = first;
+				}
+			}
+			else  //para ordem decrescente se first < second já é essa a ordem que queremos por isso mantemos :D
+			{
+				if (order == 'd') {
+					v[j] = second;
+					v[j + 1] = first;
+				}
+			}
+		}
+	}
+}
+
+int main() {
+	vector<int> v1 = {1, 0,22,100,-333,3, 4};
+	char order = 'd';
+	bubbleSort(v1, order);
+	for (int i = 0; i < v1.size(); i++) {
+		cout << v1[i] <<",";
+	}
+	return 0;
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+4.3  e)
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+bool ascending(int x, int y) {
+	if (x > y) 
+		return false;
+	else 
+		return true;
+}
+
+bool descending(int x, int y) {
+	if (x < y) 
+		return false;
+	else 
+		return true;
+}
+
+void bubbleSort(vector<int>& v, bool f(int x, int y)) {
+	int first, second;
+	for (int i = 0; i < v.size(); i++) {
+		for (int j = 0; j < v.size() - 1 - i; j++) {
+			first = v[j];
+			second = v[j + 1];
+			if (!f(first, second)) { //para descending é o mesmo que ter if(x<y) // para ascending if (x>y)
+				v[j] = second;
+				v[j + 1] = first;
+			}
+		}
+	}
+}
+
+int main() {
+	vector<int> v1 = {1, 0, 3, 4};
+	bubbleSort(v1, descending);
+	for (int i = 0; i < v1.size(); i++) 
+		cout <<"index: "<<i<<"    value: "<< v1[i] <<endl;
+	return 0;
+}

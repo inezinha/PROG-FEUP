@@ -1,0 +1,61 @@
+#include <sstream>
+#include <string>
+#include <iostream>
+#define _USE_MATH_DEFINES
+#include <math.h> 
+using namespace std;
+
+int main()
+{
+	int number, result, num1, num2, memory = 0;
+	char operation;
+	bool stop;
+	string command;
+	
+	while(!stop) {
+		stop = false;
+		cout << "Enter operation (+ - * / ): "; cin >> operation;
+		cout << "Enter number 1: "; cin >> num1;
+		cout << "Enter number 2: "; cin >> num2;
+		
+		switch (operation) {
+		case '+':
+			result = num1 + num2;
+			break;
+		case '-':
+			result = num1 - num2;
+			break;
+		case '*':
+			result = num1 * num2;
+			break;
+		case '/':
+			result = num1 / num2;
+			break;
+		}
+		cout << "The result of operation is " << result << endl;
+		cout << "Enter M to save value." << endl;
+		cout << "Enter MC to clear memory." << endl;
+		cout << "Enter M+ to add this result to the value on memory." << endl;
+		cout << "Enter M- to subtract this result to the value on memory." << endl;
+		cout << "Enter C to clear content on display." << endl;
+		cout << "Enter S to show value on memory." << endl;
+		cout << "Enter other letter to finish program." << endl;
+		cout << "Enter command: ";
+		cin >> command;
+		if (command == "M")
+			memory = result;
+		else if (command == "MC")
+			memory = 0;
+		else if (command == "M+")
+			memory += result;
+		else if (command == "M-")
+			memory -= result;
+		else if (command == "C")
+			stop = true;
+		else if (command == "S")
+			cout << "Memory value: " << memory << endl;
+		else
+			break;
+	}
+	return 0;
+}

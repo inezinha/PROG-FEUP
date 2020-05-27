@@ -1,0 +1,100 @@
+4.12 a)
+
+#include <iostream>
+using namespace std;
+
+void readArray(int *a , size_t nElem){
+    int nemVar;
+    for (int i=0; i<nElem;i++){
+        cout<<"Enter a number: ";
+        cin>>nemVar;
+        a[i]=nemVar;
+    }
+}
+
+int findValueInArray(const int *a, size_t nElem, int value, size_t pos1=0, size_t pos2=-1){
+    for (int i=pos1; i<pos2;i++){
+        if (a[i]==value)
+            return i;
+    }
+    return -1;
+}
+
+size_t findMultValuesInArray(const int *a, size_t nElem, int value, size_t pos1, size_t pos2, int *index){
+    size_t count = 0;
+    for (int i=pos1; i<pos2;i++){
+        if (a[i]==value){
+            index[count]=i;
+            count++;
+        }
+    }
+    return count;
+}
+
+int main(){
+    int *a,*index;
+    size_t nElem;
+    cout<<"Enter the number of elements: "; cin>>nElem;
+    a = new int[nElem];
+    index = new int[nElem];
+    readArray(a,nElem);
+    size_t b = findMultValuesInArray(a, nElem, 4, 0, nElem, index);
+    for (int i = 0; i < b; i++) {
+        cout << "Index of occurence of the value: " << index[i] << endl;
+    }
+    return 0;
+}
+
+//------------------------------------------------------------------------------------------------------------------
+
+4.12 b)
+
+#include <iostream>
+using namespace std;
+
+void readArray(int *a , size_t nElem){
+    int nemVar;
+    for (int i=0; i<nElem;i++){
+        cout<<"Enter a number: ";
+        cin>>nemVar;
+        a[i]=nemVar;
+    }
+}
+int findValueInArray(const int* pos1, const int* pos2, int value){
+    int i = 0;
+    while (pos1 <= pos2) { //enquanto adress de memória de pos2 for maior que o adress de memoria de pos1
+        if (*pos1 == value) //se o valor da pos1 for igual ao value
+            return i; //retorno o indice 
+        pos1 ++; //mover para a posição de memoria seguinte, 4 bytes à frente
+        i ++; //incrementar o indice
+    }
+    return -1;
+}
+size_t findMultValuesInArray(const int* pos1, const int* pos2, int value, int *index){
+    int count = 0;
+    int idx = 0;
+    while (pos1 <= pos2) {
+        if (*pos1 == value) {
+            index[count] = idx;
+            count ++;
+        }
+        idx ++;
+        pos1 ++;
+    }
+    return count;
+}
+int main(){
+    int *a,*index;
+    size_t nElem;
+    cout<<"Enter the number of elements: "; cin>>nElem;
+    a = new int[nElem];
+    index = new int[nElem];
+    readArray(a,nElem);
+    int *pos1 = a; //o pointer pos1 está a apontar para o primeiro elemento do array a
+    int *pos2 = a + nElem - 1; // o pointer pos2 está a apontar para a última posição do array a
+    size_t b = findMultValuesInArray(pos1, pos2, 7 , index);
+    for (int i = 0; i < b; i++) {
+        cout << "Index of occurrence of the value: " << index[i] << endl;
+    }
+    return 0;
+}

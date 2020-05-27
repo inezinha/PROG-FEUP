@@ -1,0 +1,19 @@
+Consider the program fragment: 
+int values[] = { 2, 3, 5, 7, 11, 13 }; 
+int *p = values+1; 
+cout << values[1] << endl; 
+cout << values+1 << endl; 
+cout << *p << endl; 
+cout << *(values+3) << endl; 
+cout << p+1 << endl; 
+cout << p[1] << endl; 
+cout << p-values << endl; 
+
+Explain the meaning of the following expressions: 
+values[1]  means the value in the index 1 of the array which is 3
+values+1  adress of memory of the first element in the array same as values[1]
+*p is the value stored 4 bytes after the the base address of the array values
+*(values+3)  value where the pointer is pointing at which is 7 because it's the same as values[3] | is the value stored 12 bytes after the base address of the array values
+p+1 goes to the next memory position, adds 4 bytes, so now is pointing to the memory adress of the 2nd index, the value 5
+p[1] is the value stored 4 bytes after the value stored on the address given by p + 1, which in this case is the 5
+p-values (p está a guardar o adress do index 1 e 'values' é o endereço base que é o index 0 por isso 1 diferença de indices de p e values (a diferenca em memoria e de 4 posicoes, 1 inteiro))is the index in the array of the value stored 4 bytes after the base address

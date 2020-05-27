@@ -1,0 +1,41 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+int main(){
+    
+    double xrange,yrange, gap;
+    cout << fixed << setprecision(5);
+    
+    cout << "Enter the lower range: "; cin>>xrange;
+    while(!cin){
+        cin.clear();
+        cin.ignore(9999,'\n');
+        cout<<"Invalid input! Try again:";
+        cin >> xrange;
+    }
+    
+    cout << "Enter the upper range: "; cin>>yrange;
+    while(!cin){
+        cin.clear();
+        cin.ignore(9999,'\n');
+        cout<<"Invalid input! Try again:";
+        cin >> yrange;
+    }
+    
+    
+    cout <<"Enter the interval: "; cin>>gap;
+    cout << "ang"<< setw(10)<< "sin"<<setw(10)<<"cos"<<setw(10)<<"tan"<<endl;
+    
+    for(int i= xrange; i<=yrange;i+=gap){
+        if (i==90){
+            cout <<i<<setw(10)<<"1.00000"<<setw(10)<<"0.00000"<<setw(10)<<"infinite";
+        }
+        else{
+            cout<<i<<setw(10)<<sin(i*M_PI/180)<<setw(10)<<cos(i*M_PI/180)<<setw(10)<<tan(i*M_PI/180)<<endl;
+        }
+    }
+    return 0;
+}

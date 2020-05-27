@@ -1,0 +1,84 @@
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+using namespace std;
+
+void fill_grades(int **grade, int NUMBER_STUDENTS, int NUMBER_QUIZZES);
+void compute_st_ave(int **grade, double st_ave[], int NUMBER_STUDENTS, int NUMBER_QUIZZES);
+void compute_quiz_ave(int **grade, double quiz_ave[], int NUMBER_STUDENTS, int NUMBER_QUIZZES);
+void display(int **grade, const double st_ave[], const double quiz_ave[], int NUMBER_STUDENTS, int NUMBER_QUIZZES);
+//------------------------------------------------------------------------
+int main( )
+{
+    int NUMBER_STUDENTS, NUMBER_QUIZZES;
+    cout<<"Enter the number of students: "; cin>>NUMBER_STUDENTS;
+    cout<<"Enter the number of quizzes taken: "; cin>>NUMBER_QUIZZES;
+
+    int **grade;
+    grade = new int *[NUMBER_STUDENTS];
+    for (int i=0; i<NUMBER_STUDENTS; i++){
+        grade[i] = new int [NUMBER_QUIZZES];
+    }
+
+    double st_ave[NUMBER_STUDENTS];
+    double quiz_ave[NUMBER_QUIZZES];
+
+    fill_grades(grade, NUMBER_STUDENTS, NUMBER_QUIZZES);
+    compute_st_ave(grade, st_ave, NUMBER_STUDENTS, NUMBER_QUIZZES);
+    compute_quiz_ave(grade, quiz_ave, NUMBER_STUDENTS, NUMBER_QUIZZES);
+    display(grade, st_ave, quiz_ave, NUMBER_STUDENTS, NUMBER_QUIZZES);
+
+    return 0;
+}
+//------------------------------------------------------------------------
+void fill_grades(int **grade, int NUMBER_STUDENTS, int NUMBER_QUIZZES)
+{
+    for (int st_num = 0; st_num < NUMBER_STUDENTS; st_num++)
+        for (int quiz_num = 0; quiz_num < NUMBER_QUIZZES; quiz_num++)
+            grade[st_num][quiz_num] = 10 + rand() % 11;
+}
+//------------------------------------------------------------------------
+void compute_st_ave(int **grade, double st_ave[], int NUMBER_STUDENTS, int NUMBER_QUIZZES)
+{
+    for (int st_num = 0; st_num < NUMBER_STUDENTS; st_num++)
+    {
+        double sum = 0;
+        for (int quiz_num = 0; quiz_num < NUMBER_QUIZZES; quiz_num++)
+            sum = sum + grade[st_num][quiz_num];
+        st_ave[st_num] = sum/NUMBER_QUIZZES;
+    }
+}
+//------------------------------------------------------------------------
+void compute_quiz_ave(int **grade, double quiz_ave[], int NUMBER_STUDENTS, int NUMBER_QUIZZES)
+{
+    for (int quiz_num = 0; quiz_num < NUMBER_QUIZZES; quiz_num++)
+    {
+        double sum = 0;
+        for (int st_num = 0; st_num < NUMBER_STUDENTS; st_num++)
+            sum = sum + grade[st_num][quiz_num];
+        quiz_ave[quiz_num] = sum/NUMBER_STUDENTS;
+    }
+}
+//------------------------------------------------------------------------
+void display(int **grade, const double st_ave[], const double quiz_ave[], int NUMBER_STUDENTS, int NUMBER_QUIZZES)
+{
+    cout<<fixed;
+    cout<<showpoint;
+    cout<<setprecision(1);
+    cout << setw(10) << "Student"
+         << setw(5) << "Ave"
+         << setw(15) << "Quizzes\n";
+    
+    for (int st_num = 0; st_num < NUMBER_STUDENTS; st_num++)
+    {
+        cout << setw(10) << st_num + 1 << setw(5) << st_ave[st_num] << " ";
+        for (int quiz_num = 0; quiz_num < NUMBER_QUIZZES; quiz_num++)
+            cout << setw(5) << grade[st_num][quiz_num];
+        cout << endl;
+    }
+    cout << "Quiz averages = ";
+    
+    for (int quiz_num = 0; quiz_num < NUMBER_QUIZZES; quiz_num++)
+        cout << setw(5) << quiz_ave[quiz_num];
+    cout << endl;
+}

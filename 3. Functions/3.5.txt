@@ -1,0 +1,39 @@
+3.5 a)
+
+#include <iostream>
+
+using namespace std;
+
+int GCD(int a, int b){
+    if (a==0)
+        return b;
+
+    if (b==0)
+        return a;
+        
+    while(a!=b){
+        if (a>b){
+            a -= b;
+        }
+        else{
+            b -= a;
+        }
+    }
+    return a;
+}
+
+
+int main()
+{
+    int n1,n2,gcd;
+    cout<<"Enter a number: ";cin>>n1;
+    cout<<"Enter another number: ";cin>>n2;
+    gcd = GCD(n1,n2);
+    cout << "The greatest common divisir of "<<n1<<" and "<<n2<<" is: "<<gcd;
+    return 0;
+}
+
+-------------------------------------------------------------------------------------
+
+3.5 b)
+

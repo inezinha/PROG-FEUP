@@ -1,0 +1,70 @@
+2.14 a)
+
+#include <iostream>
+#include <stdio.h>   
+#include <math.h> 
+
+using namespace std;
+
+int main()
+{
+    int n,nMaxIter,i=0;
+    double rq=1, rqn,dif,delta;
+    
+    cout<<"Enter a number: "; cin>>n;
+    cout<<"Enter the value of delta: "; cin>>delta;
+    cout<<"Enter the max number of iterations: "; cin>>nMaxIter;
+    
+    while(dif<delta && i<nMaxIter){
+        rqn = (rq + n / rq)/2;
+        rq = rqn;
+        dif = n-pow(rqn,2);
+        i++;
+    }
+    
+    cout<<"The approximate value of the square root of "<< n << " is: "<<rq;
+
+    return 0;
+}
+
+--------------------------------------------------------------------------------------------
+
+2.14 b)
+
+#include <iostream>
+#include <iomanip>
+#include <stdio.h>   
+#include <math.h> 
+using namespace std;
+
+int dec_places(double n) {
+    int places = 0;
+    while (n < 1) {
+        n *= 10;
+        places ++;
+    }
+    return places;
+}
+
+int main()
+{
+    int n,nMaxIter,i=0,len;
+    double rq=1, rqn,dif,delta;
+    
+    cout<<"Enter a number: "; cin>>n;
+    cout<<"Enter the value of delta: "; cin>>delta;
+    cout<<"Enter the max number of iterations: "; cin>>nMaxIter;
+    
+    while(dif<delta && i<nMaxIter){
+        rqn = (rq + n / rq)/2;
+        rq = rqn;
+        dif = n-pow(rqn,2);
+        i++;
+    }
+    
+    cout<<fixed<<setprecision(dec_places(delta));
+    cout<<"The approximate value of the square root of "<< n << " is: "<<rq<<endl;
+    cout<<"The value of the square root is: "<< sqrt(n);
+
+    return 0;
+}

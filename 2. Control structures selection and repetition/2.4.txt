@@ -1,0 +1,17 @@
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    double price=5, peso;
+    
+    cout<<"What is the weight(g) of the merchandise?"; cin>>peso;
+    
+    if (peso>500 && peso<=1000){
+        price += 1.5*int((peso-500)/100);
+    }
+    
+    if (peso>1000){
+        price = 12.5+5*int((peso-1000)/250);
+    }

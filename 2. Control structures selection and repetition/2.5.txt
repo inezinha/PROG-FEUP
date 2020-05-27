@@ -1,0 +1,59 @@
+
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+    const int PREC = 3;
+    double a,b,c;
+    double D;
+    cout<< fixed << setprecision(PREC);
+    cout<<"Ax^2 + Bx + C= 0"<<endl;
+    
+    cout<<"Enter the value of A: "; cin>>a;
+    while (!cin){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout<<"Invalid input! Try again: ";
+        cin>>a;
+    }   
+    cout<<"Enter the value of B: "; cin>>b;
+    while (!cin){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout<<"Invalid input! Try again: ";
+        cin>>b;
+    }   
+    cout<<"Enter the value of C: "; cin>>c;
+    while (!cin){
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout<<"Invalid input! Try again: ";
+        cin>>c;
+    }
+    D = pow(b,2)-4*a*c;
+    if (D<0){
+        cout<<"The equation has 2 complex roots: ";
+        cout<< -b / (2 * a) << " + " << sqrt(-D) / (2 * a) << "i and " << -b / (2 * a) << " - " << sqrt(-D) / (2 * a) << "i" << endl;
+    }
+    
+    if (D>0){
+        cout <<"The equation 2 real roots: ";
+        cout<< (-b+D)/2*a << " and " << (-b-D)/2*a;
+    }
+    
+    if (D==0){
+        cout <<"The equation has 2 real identical roots: ";
+        cout<< -b/2*a ;
+    }
+
+    return 0;
+}
+
+    
+    cout <<"The price of the transportation is: "<<price;
+    return 0;
+}

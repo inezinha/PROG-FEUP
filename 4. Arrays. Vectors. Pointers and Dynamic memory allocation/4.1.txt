@@ -1,0 +1,45 @@
+#include <iostream>
+
+using namespace std;
+
+void readArray(int a[], size_t nElem){
+    int nemVar;
+    for (int i=0; i<nElem;i++){
+        cout<<"Enter a number: ";
+        cin>>nemVar;
+        a[i]=nemVar;
+    }
+}
+
+int findValueInArray(const int a[], size_t nElem, int value, size_t pos1=0, size_t pos2=-1){
+    for (int i=pos1; i<pos2;i++){
+        if (a[i]==value)
+            return i;
+    }
+    return -1;
+}
+
+
+size_t findMultValuesInArray(const int a[], size_t nElem, int value, size_t pos1, size_t pos2, int index[]){
+    size_t count = 0;
+    for (int i=pos1; i<pos2;i++){
+        if (a[i]==value){
+            index[count]=i;
+            count++;
+        }
+    }
+    return count;
+}
+
+int main()
+{
+    int a[10],index[10];
+    size_t nElem;
+    cout<<"Enter the number of elements: "; cin>>nElem;
+    readArray(a,nElem);
+    size_t b = findMultValuesInArray(a, nElem, 4, 0, nElem, index);
+	for (int i = 0; i < b; i++) {
+		cout << "Index of occurence of the value: " << index[i] << endl;
+	}
+    return 0;
+}
