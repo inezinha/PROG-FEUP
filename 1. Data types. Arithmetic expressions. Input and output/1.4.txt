@@ -1,0 +1,53 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main(){
+    double a, b, c, d, e, f;
+    cout <<"What is the value of a?: "; cin >> a;
+    while (!cin || !(isdigit(cin.peek()) || cin.peek() == '\n')) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> a;
+    }
+    cout <<"What is the value of b?: "; cin >> b;
+    while (!cin || !(isdigit(cin.peek()) || cin.peek() == '\n')) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> b;
+    }
+    cout <<"What is the value of c?: "; cin >> c;
+    while (!cin || !(isdigit(cin.peek()) || cin.peek() == '\n')) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> c;
+    }
+    cout <<"What is the value of d?: "; cin >> d;
+    while (!cin || !(isdigit(cin.peek()) || cin.peek() == '\n')) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> d;
+    }
+    cout <<"What is the value of e?: "; cin >> e;
+    while (!cin || !(isdigit(cin.peek()) || cin.peek() == '\n')) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> e;
+    }
+    cout <<"What is the value of f?: "; cin >> f;
+    while (!cin || !(isdigit(cin.peek()) || cin.peek() == '\n')) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> f;
+    }
+    cout << "x = " << (c*e - b*f) / (a*e - b*d) << endl;
+    cout << "y = " << (a*f - c*d) / (a*e - b*d) << endl;
+    return 0;
+}

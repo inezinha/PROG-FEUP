@@ -1,0 +1,148 @@
+1.5 a)
+
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main(){
+    int h1, m1, s1;
+    cout <<"Time1 (hours minutes seconds) ? "; cin >> h1 >> m1 >> s1;
+    while(!cin >> h1 >> m1 >> s1 || (h1 > 23) || (m1 > 59) || (s1 > 59)) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> h1 >> m1 >> s1;
+    }
+    int h2, m2, s2;
+    cout << "Time2 (hours minutes seconds) "; cin >> h2 >> m2 >> s2;
+    while(!cin >> h2 >> m2 >> s2 || (h2 > 23) || (m2 > 59) || (s2 > 59)) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> h2 >> m2 >> s2;
+    }
+    
+    int somah, somam, somas, dia=0;
+    
+    somah = h1 + h2;
+	somam = m1 + m2;
+	somas = s1 + s2;
+    
+    if (somas >= 60) {
+		somas -= 60;
+		somam += 1;
+	}
+
+	if (somam >= 60) {
+		somam -= 60;
+		somah += 1;
+	}
+
+	if (somah >= 24) {
+		somah -= 24;
+		dia += 1;
+	}
+
+    cout << "Time 1 + Time 2 = " << dia << " day(s), " << somah << " hours, " << somam << " minutes, and "
+    << somas << " seconds." << endl;
+
+}
+
+
+1.5 b)
+
+#include <iostream>
+
+using namespace std;
+
+int main(){
+    int h1, m1, s1;
+    cout << "Time1 (hours minutes seconds) "; cin >> h1;
+    while(!cin >> h1 || h1 > 23) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> h1;
+    }
+    while (!isdigit(cin.peek())) {
+        cin.clear();
+        cin.ignore();
+    }
+    cin >> m1;
+    while(!cin >> m1 || m1 > 59) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> m1;
+    }
+    while (!isdigit(cin.peek())) {
+        cin.clear();
+        cin.ignore();
+    }
+    cin >> s1;
+    while(!cin >> s1 || s1 > 59) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> s1;
+    }
+
+    int h2, m2, s2;
+    cout << "Time2 (hours minutes seconds) ";
+    cin >> h2;
+    while(!cin >> h2 || h2 > 23) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> h2;
+    }
+    while (!isdigit(cin.peek())) {
+        cin.clear();
+        cin.ignore();
+    }
+    cin >> m2;
+    while(!cin >> m2 || m2 > 59) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> m2;
+    }
+    while (!isdigit(cin.peek())) {
+        cin.clear();
+        cin.ignore();
+    }
+    cin >> s2;
+    while(!cin >> s2 || s2 > 59) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> s1;
+    }
+    
+    int somah, somam, somas, dia=0;
+    
+    somah = h1 + h2;
+	somam = m1 + m2;
+	somas = s1 + s2;
+    
+    if (somas >= 60) {
+		somas -= 60;
+		somam += 1;
+	}
+
+	if (somam >= 60) {
+		somam -= 60;
+		somah += 1;
+	}
+
+	if (somah >= 24) {
+		somah -= 24;
+		dia += 1;
+	}
+
+    cout << "Time 1 + Time 2 = " << dia << " day(s), " << somah << " hours, " << somam << " minutes, and "
+    << somas << " seconds." << endl;
+
+}
+

@@ -1,0 +1,39 @@
+
+#include <iostream>
+#include <math.h> 
+
+using namespace std;
+
+int main(){
+    double p1x, p1y, p2x, p2y, p3x, p3y;
+    double a,b,c;
+    double s, area;
+    cout << "Enter the coordinates of P1: "; 
+    while (!(cin >> p1x >> p1y)) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> p1x >> p1y;
+    }
+    cout << "Enter the coordinates of P2: ";
+    while (!(cin >> p2x >> p2y)) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> p2x >> p2y;
+    }
+    cout << "Enter the coordinates of P3: ";
+    while (!(cin >> p3x >> p3y)) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Invalid input! Try again: ";
+        cin >> p3x >> p3y;
+    }
+    a = sqrt(pow(p1x-p3x,2.0) + pow(p1y-p3y,2.0));
+    b = sqrt(pow(p1x-p2x,2.0) + pow(p1y-p2y,2.0));
+    c = sqrt(pow(p3x-p2x,2.0) + pow(p3y-p2y,2.0));
+    s = (a+b+c)/2;
+    area = sqrt(s*(s-a)*(s-b)*(s-c));
+    cout << "a area é: " << area;
+    return 0;
+}
