@@ -1,0 +1,116 @@
+5.12 a)
+
+#include <fstream>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+void readFile(const string &fileName, string &content) {
+    ifstream f_in(fileName, ios::binary); //causes file to be opened in binary mode (by default, all files are opened in text mode)
+    if (!f_in.is_open()) { //
+        cerr<<"Input file opening failed"<<endl;
+        exit(1); //sometimes, it is best to stop the program, with an exit code != 0
+    }
+    char c;
+    c = f_in.get(); //Get characters
+    while (!f_in.eof()) {
+        content += c; //isto vai juntar todos os chars que estão no file e guardá-los nesta string content
+        c = f_in.get(); //Extracts characters from the stream and stores them in s as a string, until either (n-1) characters have been extracted or the delimiting character is encountered
+    }
+}
+
+void writeFile(const string &fileName, const string& content) {
+    ofstream f_out(fileName, ios::binary);
+    f_out << content;
+}
+
+string compressRLE(string &content) { //recebe como parametro a string uncompressed
+    string result;
+    for (int i = 0; i < content.size(); i ++) { //iterar pela string
+        if (isalpha(content.at(i))) { //se for uma letra do alfabeto
+            int count = 1; //começar em um pq o primeiro tmb conta
+            while (content.at(i) == content.at(i + 1)) { //enquanto a letra for igual à letra do lado (queremos letras iguais CONSECUTIVAS)
+                count++; //incrementar o count de letras iguais consecutivas
+                i++; //passar à letra seguinte
+            }
+            result += to_string(count); //passar a int para string porque no final queremos, por exemplo 13b
+            result += content.at(i); //passar a letra em si a seguir ao número(em formato string)
+        } else {
+            result += content.at(i); //se não for uma letra do alfabeto é pq é um espaço ou aqueles numeros do inicio então simplesmente copiamos essa parte porque fica igual
+        }
+    }
+    return result; //retornar a string COMPRESSED
+}
+
+int main() {
+    string fileRead,fileWrite;
+    cout<<"Name of uncompressed image file: ";cin>>fileRead;
+    cout<<"Name of compressed image file: ";cin>>fileWrite;
+    string content;
+    readFile(fileRead, content);
+    writeFile(fileWrite, compressRLE(content));
+}
+
+----------------------------------------------------------------------------------------------------------------
+
+5.12 b)
+
+#include <fstream>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+void readFile(const string &fileName, string &content) {
+    ifstream f_in(fileName, ios::binary); //causes file to be opened in binary mode (by default, all files are opened in text mode)
+    if (!f_in.is_open()) { //
+        cerr<<"Input file opening failed"<<endl;
+        exit(1); //sometimes, it is best to stop the program, with an exit code != 0
+    }
+    char c;
+    c = f_in.get(); //Get characters
+    while (!f_in.eof()) {
+        content += c; //isto vai juntar todos os chars que estão no file e guardá-los nesta string content
+        c = f_in.get(); //Extracts characters from the stream and stores them in s as a string, until either (n-1) characters have been extracted or the delimiting character is encountered
+    }
+}
+
+void writeFile(const string &fileName, const string& content) {
+    ofstream f_out(fileName, ios::binary);
+    f_out << content;
+}
+
+string decompressRLE(string &content) {
+    string result;
+    size_t index = 0;
+    for (int i = 0; i < 2; ++i){
+        index = (content.find(' ', index)) + 1; //size_t find (char c, size_t pos = 0) const;
+    }
+    string dimensions = content.substr(0, index); //isto é para separar a parte das dimensoes da matriz da parte compressa
+    string compressed = content.substr(index); //isto é só a parte compressa
+    result += dimensions; //queremos a parte da matriz igual no resultado
+    for (int i = 0; i < compressed.size(); i ++) { //iterar pela string compressa
+        int n;
+        string temp;
+        while (isdigit(compressed.at(i))) { //enquanto encontro um digito na string
+            temp += compressed.at(i); //passo esse digito para esta variavel temporaria
+            n = atoi(temp.c_str()); //transformo esse digito num integer
+            i++; //checo se o char seguinte tmb é digito, se for faço o mesmo, se não saio do while
+        }
+        while (n>0) { //o n é o digito q vamos descompressar :D
+            result += compressed.at(i); //vamos concantenar N vezes a letra
+            n--;
+        }
+    }
+    return result; //retorna o resultado todo descompressado xD lindo e bonito :D
+}
+
+int main() {
+    string fileRead,fileWrite;
+    cout<<"Name of compressed image file: ";cin>>fileWrite;
+    cout<<"Name of uncompressed image file: ";cin>>fileRead;
+    string content;
+    readFile(fileRead, content);
+    writeFile(fileWrite, decompressRLE(content));
+}

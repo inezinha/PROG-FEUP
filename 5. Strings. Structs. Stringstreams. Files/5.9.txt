@@ -1,0 +1,63 @@
+#include <iostream>
+#include <iomanip>
+#include <cctype>
+#include <string>
+#include <sstream>
+using namespace std;
+
+typedef struct {
+    string street;
+    unsigned int door;
+    string city;
+}Adress;
+
+struct Person{
+    string name;
+    int age;
+    char gender;
+    Adress adress;
+};
+
+void readAdress(Adress *adress){
+    cin.ignore();
+    cout<<"Enter the name of your street: ";getline(cin,adress->street);
+    cout<<"Enter the number of your door: ";cin>>adress->door;
+    cin.ignore();
+    cout<<"Enter the name of your city: ";getline(cin,adress->city);
+}
+
+void readPerson(Person p[], size_t n){
+    cin.ignore();
+    for(size_t i=0;i<n;i++){
+        cout<<"Enter the name of the person "<<i<<" : ";getline(cin,p[i].name);
+        cout<<"Enter the age of the person "<<i<<" : ";cin>>p[i].age;
+        cout<<"Enter the gender of the person "<<i<<" : ";cin>>p[i].gender;
+        cout<<"--------- Enter the adress of the person "<<i<<" -------- ";cout<<endl;
+        Adress a;
+        readAdress(&a);
+        p[i].adress = a;
+    }
+}
+
+void compareStreet(Person p[],size_t n,string city){
+    for (int i=0;i<n;i++){
+        for (int j=i+1;j<n-i;j++){
+            if (p[i].adress.city == city && p[i].adress.city == p[j].adress.city && p[i].adress.street == p[j].adress.street){
+                cout << p[i].name <<" and "<< p[j].name<<" live at "<<p[i].adress.street<<endl;
+            }
+        }
+    }
+}
+
+int main(){
+    unsigned tam;
+    string city;
+    cout<<"Enter the number of people: ";cin>>tam;
+    cin.ignore();
+    Person p[tam];
+    readPerson(p,tam);
+    cout<<endl;
+    cout<<"Enter the city: ";cin>>city;
+    compareStreet(p,tam,city);
+    return 0;
+}

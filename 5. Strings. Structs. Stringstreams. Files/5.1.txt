@@ -1,0 +1,162 @@
+5.1 a)
+#include <iostream>
+#include <string>
+using namespace std;
+
+char encryptChar(char c, int key) {
+    if (isalpha(c)) { //checks if the c character is alphabetic
+        char result = (c + key);
+        if (isupper(c)) { //checks if the c character is upper case
+            while (result < 'A') result += 26;
+            while (result > 'Z') result -= 26;
+        } else {
+            while (result < 'a') result += 26;
+            while (result > 'z') result -= 26;
+        }
+        c = result;
+    }
+    return c;
+}
+
+int main(){
+    int key;
+    char c;
+    cout<<"Enter the character: ";cin>>c;
+    cout<<"Enter the key: ";cin>>key;
+    cout<<encryptChar(c,key);
+    return 0;
+
+------------------------------------------------------------------------------------
+5.2 b)
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+char encryptChar(char c, int key) {
+    if (isalpha(c)) { //checks if the c character is alphabetic
+        char result = (c + key);
+        if (isupper(c)) { //checks if the c character is upper case
+            while (result < 'A')
+                result += 26;
+            while (result > 'Z')
+                result -= 26;
+        } else {
+            while (result < 'a')
+                result += 26;
+            while (result > 'z')
+                result -= 26;
+        }
+        c = result;
+    }
+    return c;
+}
+
+void encryptString(string s, int key){
+    for (int i=0;i<s.size()-1;i++){
+        cout << encryptChar(s[i],key);
+    }
+}
+
+int main(){
+    int key;
+    char c;
+    string sentence;
+    //cout<<"Enter the character: ";cin>>c;
+    cout<<"Enter a sentence: ";cin>>sentence;
+    cout<<"Enter the key: ";cin>>key;
+    //cout<<encryptChar(c,key);
+    encryptString(sentence,key);
+    return 0;
+}
+
+-------------------------------------------------------
+5.1 c)
+
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+char encryptChar(char c, int key) {
+    if (isalpha(c)) { //checks if the c character is alphabetic
+        char result = (c + key);
+        if (isupper(c)) { //checks if the c character is upper case
+            while (result < 'A')
+                result += 26;
+            while (result > 'Z')
+                result -= 26;
+        } else {
+            while (result < 'a')
+                result += 26;
+            while (result > 'z')
+                result -= 26;
+        }
+        c = result;
+    }
+    return c;
+}
+
+void encryptString(string s, int key){
+    for (int i=0;i<s.size()-1;i++){
+        cout << encryptChar(s[i],key);
+    }
+}
+
+int main(){
+    int key;
+    char c;
+    string sentence;
+    //cout<<"Enter the character: ";cin>>c;
+    cout<<"Enter a sentence: ";getline(cin,sentence);
+    cout<<"Enter the key: ";cin>>key;
+    //cout<<encryptChar(c,key);
+    encryptString(sentence,key);
+    return 0;
+}
+
+---------------------------------------------------------------------
+5.1 d)
+
+#include <iostream>
+#include <string>
+#include <stdio.h>
+#include <string.h>
+#include <vector>
+using namespace std;
+
+char encryptChar(char c, int key) {
+    if (isalpha(c)) { //checks if the c character is alphabetic
+        char result = (c + key);
+        if (isupper(c)) { //checks if the c character is upper case
+            while (result < 'A')
+                result += 26;
+            while (result > 'Z')
+                result -= 26;
+        } else {
+            while (result < 'a')
+                result += 26;
+            while (result > 'z')
+                result -= 26;
+        }
+        c = result;
+    }
+    return c;
+}
+
+void encryptString(char s[], int key){
+    for (int i=0;i<strlen(s);i++){
+        cout << encryptChar(s[i],key);
+    }
+}
+
+int main(){
+    int key;
+    char c,sentence[20];
+    //cout<<"Enter the character: ";cin>>c;
+    cout<<"Enter a sentence: ";cin.getline(sentence,20);
+    cout<<"Enter the key: ";cin>>key;
+    //cout<<encryptChar(c,key);
+    encryptString(sentence,key);
+    return 0;
+}

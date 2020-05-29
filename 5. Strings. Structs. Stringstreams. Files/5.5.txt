@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
+
+string convert_to_upper(string name){ //USING ASCII
+    string result="";
+    for(int i=0;i<name.size();i++){
+        if (name[i]>=65 && name[i]<=92) //se a letra for maiuscula manter
+            result += name[i];
+        else if(name[i] == ' ') //se for um espaço manter
+            result += name[i];
+        else if (name[i]>=97 && name[i]<=122) { //se a letra for minuscula por maiuscula
+            name[i] = name[i] - 32;
+            result += name[i];
+        }
+    }
+    return result;
+}
+
+string remove_extra_spaces(string name) {
+    bool prev_is_space = true;
+    name.erase(std::remove_if(name.begin(), name.end(), [&prev_is_space](unsigned char curr) {
+        bool r = std::isspace(curr) && prev_is_space;
+        prev_is_space = std::isspace(curr);
+        return r;
+
+    }), name.end());
+    return name;
+}
+
+string remove_spaces_beg_end(string name){
+    int startName = name.find_first_not_of(' '); //índice do primeiro não espaço
+    name = name.substr(startName); //substring que vai desde o primeiro não espaço até ao fim. ELIMINA OS PRIMEIROS ESPAÇOS.
+    int endName = name.find_last_not_of(' '); //encontrar o índice do ultimo char q n é espaço
+    name = name.substr(0, endName + 1); //ELIMINAR ESPAÇOS DO FIM
+    return name;
+}
+
+string remove_des(string name){
+    vector<string>v = {" DE ", " DO ", " DA ", " DOS ", " DAS ", " E "};
+    for (const string& par : v) {
+        size_t pos = name.find(par);
+        while (pos != string::npos) {
+            name.replace(pos, par.size(), " ");
+            pos = name.find(par, pos);
+        }
+    }
+    return name;
+}
+
+string normalizeName(string name){
+    string result;
+    result = convert_to_upper(name);
+    result = remove_des(result);
+    result = remove_extra_spaces(result);
+    result = remove_spaces_beg_end(result);
+    return result;
+}
+
+int main() {
+    string name;
+    cout<<"Enter a name: ";getline(cin,name);
+    cout<<"The normalized name is: "<< normalizeName(name);
+    return 0;
+}

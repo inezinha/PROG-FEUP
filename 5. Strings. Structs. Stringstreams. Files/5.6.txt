@@ -1,0 +1,120 @@
+#include <iostream>
+#include <iomanip>
+#include <cctype>
+#include <string>
+#include <sstream>
+using namespace std;
+
+struct Fraction
+{
+    int numerator;
+    int denominator;
+};
+
+int GCD(int d1, int d2){
+    if(d1%d2==0)
+        return d2;
+    else
+        return GCD(d2,d1%d2);
+}
+
+bool readFraction(Fraction *f){
+    string fractionString;
+    char fracSymbol;
+    int numerator;
+    int denominator;
+    bool success;
+    cout << "n / d ? ";
+    if (cin>>numerator>>fracSymbol>>denominator, fracSymbol == '/')// the comma operator evaluates its first operand and discards the result, and then evaluates the second operand and returns this value (and type).
+    {
+        f->numerator = numerator; //(*f).numerator = numerator;
+        f->denominator = denominator; //(*f).denominator = denominator;
+        success = true;
+    }
+    else
+        success = false;
+    if (!success)
+    {
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+    return success;
+}
+
+Fraction sumFractions(Fraction f1, Fraction f2){
+    Fraction f;
+    if(f1.denominator == f2.denominator){
+        f.numerator = f1.numerator + f2.numerator;
+        f.denominator = f1.denominator;
+    }
+    else{
+        f.numerator = f1.numerator*f2.denominator + f2.numerator*f1.denominator;
+        f.denominator = f1.denominator * f2.denominator;
+    }
+    if(f.denominator == 0 || f.numerator == 0)
+        cout<<"Impossible fraction :(";
+    else {
+        int gcd = GCD(f.numerator, f.denominator);
+        cout << (f.numerator / gcd) << "/" << (f.denominator / gcd);
+    }
+}
+
+Fraction subtractFractions(Fraction f1, Fraction f2){
+    Fraction f;
+    if(f1.denominator == f2.denominator){
+        f.numerator = f1.numerator - f2.numerator;
+        f.denominator = f1.denominator;
+    }
+    else{
+        f.numerator = f1.numerator*f2.denominator - f2.numerator*f1.denominator;
+        f.denominator = f1.denominator * f2.denominator;
+    }
+    if(f.denominator == 0 || f.numerator == 0)
+        cout<<"Impossible fraction :(";
+    else {
+        int gcd = GCD(f.numerator, f.denominator);
+        cout << (f.numerator / gcd) << "/" << (f.denominator / gcd);
+    }
+}
+
+Fraction multiplyFractions(Fraction f1, Fraction f2)
+{
+    Fraction f;
+    f.numerator = f1.numerator * f2.numerator;
+    f.denominator = f1.denominator * f2.denominator;
+    if(f.denominator == 0 || f.numerator == 0)
+        cout<<"Impossible fraction :(";
+    else {
+        int gcd = GCD(f.numerator, f.denominator);
+        cout << (f.numerator / gcd) << "/" << (f.denominator / gcd);
+    }
+}
+
+Fraction divideFractions(Fraction f1, Fraction f2)
+{
+    Fraction f;
+    f.numerator = f1.numerator * f2.denominator;
+    f.denominator = f1.denominator * f2.numerator;
+    if(f.denominator == 0 || f.numerator == 0)
+        cout<<"Impossible fraction :(";
+    else {
+        int gcd = GCD(f.numerator, f.denominator);
+        cout << (f.numerator / gcd) << "/" << (f.denominator / gcd);
+    }
+}
+
+
+int main() {
+    Fraction f1, f2;
+    cout << "Input 2 fractions:\n";
+    if (readFraction(&f1) && readFraction(&f2))
+    {
+        cout << "Product: ";multiplyFractions(f1, f2);
+        cout<<endl<<"Division: ";divideFractions(f1,f2);
+        cout<<endl<<"Sum: ";sumFractions(f1,f2);
+        cout<<endl<<"Subtraction: "; subtractFractions(f1,f2);
+    } else
+        cout << "Invalid fraction\n";
+    cout << endl;
+    return 0;
+}

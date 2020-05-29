@@ -1,0 +1,62 @@
+#include <iostream>
+#include <iomanip>
+#include <cctype>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <sstream>
+using namespace std;
+
+void bubbleSort(vector<string>&v, char order){
+    string first, second;
+    for (int i = 0; i < v.size(); i++) { //número de vezes que vamos iterar dentro do vetor
+        for (int j = 0; j < v.size() - 1 - i; j++) {
+            first = v[j];
+            second = v[j + 1];
+            if (first > second) { //para ordem ascendente
+                if (order == 'a') {
+                    v[j] = second;
+                    v[j + 1] = first;
+                }
+            }
+            else  //para ordem decrescente se first < second já é essa a ordem que queremos por isso mantemos :D
+            {
+                if (order == 'd') {
+                    v[j] = second;
+                    v[j + 1] = first;
+                }
+            }
+        }
+    }
+}
+
+void readNamesFile(vector<string>&names){
+    string line;
+    ifstream namesFile;
+    namesFile.open("Names.txt");
+    if (namesFile.is_open()){
+        while ( getline (namesFile,line) ) {
+            names.push_back(line);
+        }
+        namesFile.close();
+    }
+    else
+        cout << "Unable to open file";
+}
+
+void writeNamesFile(vector<string>&names){
+    ofstream writeNames("Names_sorted");
+    for(int i=0;i<names.size();i++){
+        writeNames << names[i] << endl;
+    }
+}
+
+int main() {
+    vector<string> v;
+    bubbleSort(v, 'a');
+    readNamesFile(v);
+    for (int i=0;i<v.size();i++) {
+        cout << v[i] << endl;
+    }
+    writeNamesFile(v);
+}

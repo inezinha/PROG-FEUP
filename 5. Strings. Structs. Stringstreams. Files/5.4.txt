@@ -1,0 +1,51 @@
+5.4 a)
+
+#include <string>
+#include <iostream>
+using namespace std;
+
+bool sequenceSearch(const string &s, int nc, char c){
+    string lolo(nc,c); //this creates a string of nc c characters 
+
+    int temp;
+    for (int i=0;i<s.length();i++){
+        if(s[i]==c){
+            temp+=1;
+            string lili(temp,c);
+            if (lolo == lili){
+                return true;
+            }
+        }
+        else
+            temp=0;
+    }
+    return false;
+}
+
+int main(){
+    if(sequenceSearch("abcddeedddf", 4, 'd'))
+        cout<<"TRUE :D";
+    else
+        cout<<"FALSE :(";
+    return 0;
+}
+
+-----------------------------------------------------------------------------------------
+5.4 b)
+
+#include <string>
+#include <iostream>
+using namespace std;
+
+bool sequenceSearch(const string &s, int nc, char c){
+    string lolo(nc,c);
+    return s.find(lolo) != -1; //if s doesn't find lolo it will return -1
+}
+
+int main(){
+    if(sequenceSearch("abcddeedddf", 99, 'd'))
+        cout<<"TRUE :D";
+    else
+        cout<<"FALSE :(";
+    return 0;
+}

@@ -1,0 +1,89 @@
+#include <iostream>
+#include <iomanip>
+#include <cctype>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <cstdlib>
+using namespace std;
+
+struct EuroMillionsBet {
+    vector<unsigned>mainNumbers;
+    vector<unsigned>luckyStars;
+};
+
+void readBetPlayer(EuroMillionsBet &playerBet){
+    unsigned num;
+    for(int i=0;i<5;i++){
+        cout<<"Enter the "<<i+1<<" main number between 1 to 50: ";
+        cin>>num;
+        playerBet.mainNumbers.push_back(num);
+    }
+    unsigned star;
+    for(int i=0;i<2;i++){
+        cout<<"Enter the "<<i+1<<" lucky star between 1 to 12: ";
+        cin>>star;
+        playerBet.luckyStars.push_back(star);
+    }
+}
+
+void generateRandomKey(EuroMillionsBet &randomBet){
+    for(int i=0;i<5;i++){
+        randomBet.mainNumbers.push_back(rand()%50 + 1);
+    }
+    for(int i=0;i<2;i++){
+        randomBet.luckyStars.push_back(rand()%12 + 1);
+    }
+}
+
+void vectorIntersection(EuroMillionsBet &playerBet, EuroMillionsBet &randomBet, EuroMillionsBet &result){
+    //CHECK FOR THE MAIN NUMBERS
+    for (int i =0; i<playerBet.mainNumbers.size();i++){
+        for(int j=0; j<playerBet.mainNumbers.size();j++){
+            if (playerBet.mainNumbers[i]==randomBet.mainNumbers[j]){
+                result.mainNumbers.push_back(playerBet.mainNumbers[i]);
+            }
+        }
+    }
+    //CHECK FOR THE LUCKY STARS
+    for (int i =0; i<playerBet.luckyStars.size();i++){
+        for(int j=0; j<playerBet.luckyStars.size();j++){
+            if (playerBet.luckyStars[i]==randomBet.luckyStars[j]){
+                result.luckyStars.push_back(playerBet.luckyStars[i]);
+            }
+        }
+    }
+}
+
+int main(){
+    srand(NULL);
+    EuroMillionsBet playerBet, randomBet, result;
+    readBetPlayer(playerBet);
+    generateRandomKey(randomBet);
+    cout<<"These are the main numbers:"<<endl;
+    for(int i=0;i<randomBet.mainNumbers.size();i++){
+        cout<<randomBet.mainNumbers[i]<<endl;
+    }
+    cout<<endl<<"These are the lucky stars:"<<endl;
+    for(int i=0;i<randomBet.luckyStars.size();i++){
+        cout<<randomBet.luckyStars[i]<<endl;
+    }
+    vectorIntersection(playerBet,randomBet,result);
+
+    if(result.mainNumbers.size()){
+        for (int i=0;i<result.mainNumbers.size();i++){
+            cout<<"You got "<< result.mainNumbers[i] <<" main number(s) right";
+        }
+    }
+    else
+        cout<<"YOU DIDN'T GUESS ANY OF THE MAIN NUMBERS :( "<<endl;
+
+    if(result.luckyStars.size()){
+        for (int i=0;i<result.luckyStars.size();i++){
+            cout<<"You got "<< result.luckyStars[i] <<" lucky star(s) right";
+        }
+    }
+    else
+        cout<<"YOU DIDN'T GUESS ANY OF THE LUCKY STARS :( "<<endl;
+    return 0;
+}

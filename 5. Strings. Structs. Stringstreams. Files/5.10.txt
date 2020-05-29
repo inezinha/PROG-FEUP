@@ -1,0 +1,36 @@
+#include <string>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+typedef struct{
+    int x;
+    int y;
+}Point;
+
+typedef struct{
+    vector<Point>points;
+}Polygon;
+
+double CalculateArea(Polygon poly){
+    double result = 0;
+    for (int i = 0; i < poly.points.size() -1; i++) {
+        result += (poly.points[i].x * poly.points[i + 1].y - poly.points[i].y * poly.points[i + 1].x);
+    }
+    result = abs(result / 2);
+    return result;
+}
+
+int main(){
+    int num, x, y;
+    cout << "How many vertices does the polygon have?" << endl; cin >> num;
+    Point point;
+    Polygon poly;
+    for (int i = 0; i < num; i++) {
+        cout << "Insert x y coords" << endl;
+        cin >> point.x >> point.y;
+        poly.points.push_back(point);
+    }
+    cout << "The area of the polygon is: " << CalculateArea(poly) << endl;
+    return 0;
+}

@@ -1,0 +1,19 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+int compare(const void *a, const void *b) {
+    const char *pa = *(const char**)a;
+    const char *pb = *(const char**)b;
+    return strcmp(pa, pb);
+}
+
+int main() {
+    const char *arr[] = {"ines", "sofia", "alves", "sa"};
+    qsort(arr, 4, sizeof(const char *), compare);
+    for (int i=0;i<4;i++) {
+        cout << arr[i] << endl;
+    }
+    return 0;
+}

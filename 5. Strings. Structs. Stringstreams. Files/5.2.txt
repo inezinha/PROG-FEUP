@@ -1,0 +1,44 @@
+#include <iostream>
+#include <iomanip>
+#include <cctype>
+#include <string>
+#include <vector>
+#include <sstream>
+using namespace std;
+
+void bubbleSort(vector<string>&v, char order){
+    string first, second;
+    for (int i = 0; i < v.size(); i++) { //número de vezes que vamos iterar dentro do vetor
+        for (int j = 0; j < v.size() - 1 - i; j++) {
+            first = v[j];
+            second = v[j + 1];
+            if (first > second) { //para ordem ascendente
+                if (order == 'a') {
+                    v[j] = second;
+                    v[j + 1] = first;
+                }
+            }
+            else  //para ordem decrescente se first < second já é essa a ordem que queremos por isso mantemos :D
+            {
+                if (order == 'd') {
+                    v[j] = second;
+                    v[j + 1] = first;
+                }
+            }
+        }
+    }
+}
+
+int main(){
+    vector<string>v1; int num; string name; char order = 'a';
+    cout<<"Enter the number of names: ";cin>>num;
+    for(int i=0;i<num;i++){
+        cout<<"Enter the name: "; getline(cin,name,'\n');
+        v1.push_back(name);
+    }
+    bubbleSort(v1, order);
+    for (int i = 0; i < v1.size(); i++) {
+        cout << v1[i] <<",";
+    }
+    return 0;
+}
