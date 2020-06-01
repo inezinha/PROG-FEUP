@@ -1,0 +1,145 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <iomanip>
+#include <ctime>
+#include <cmath>
+#include <vector>
+#include <fstream>
+using namespace std;
+
+class Student {
+public:
+    Student();
+    Student(const string &code, const string &name);
+    void setGrades(double shortExam, double project, double exam);
+    string getCode() const;
+    string getName() const;
+    int getFinalGrade() const;
+    bool isApproved() const; // is the student approved or not ?
+    static int weightShortExam, weightProject, weightExam; // weights in percentage (ex:20,30,50)
+private:
+    string code; // student code
+    string name; // student complete name
+    double shortExam, project, exam; // grades obtained by the student in the different components
+    int finalGrade;
+};
+
+int Student::weightShortExam = 20,Student::weightProject = 30,Student::weightExam = 50;
+
+Student::Student() = default;
+
+Student::Student(const string &code, const string &name){
+    this->code = code;
+    this->name = name;
+}
+
+void Student::setGrades(double shortExam, double project, double exam){
+    this->shortExam = shortExam;
+    this->project = project;
+    this->exam = exam;
+    finalGrade = round(double((shortExam*weightShortExam+project*weightProject+exam*weightExam)/100));
+}
+
+string Student::getCode() const{
+    return code;
+}
+
+string Student::getName() const{
+    return name;
+}
+
+int Student::getFinalGrade() const{
+    return finalGrade;
+}
+
+bool Student::isApproved() const{
+    return (finalGrade>=9.5);
+}
+
+Student readStudentData(){
+    string stcode,stname;
+    double gradeExam,gradeShortExam,gradeProj;
+    cout<<"Student code? ";cin>>stcode;
+    cin.ignore();
+    cout<<"Student name? ";getline(cin,stname);
+    Student st(stcode,stname);
+    cout<<"Short exam grade? ";cin>>gradeShortExam;
+    cout<<"Project grade? ";cin>>gradeProj;
+    cout<<"Exam grade? ";cin>>gradeExam;
+    st.setGrades(gradeShortExam,gradeProj,gradeExam);
+    return st;
+}
+
+void  showAboveAverageStudents(ostream &os,const vector<Student>&students){
+    cin.ignore();
+    double average;
+    vector<Student>aboveAverage;
+
+    for(int i=0;i<students.size();i++){
+        average += students[i].getFinalGrade();
+    }
+    average = average/students.size();
+
+    for (int i=0;i<students.size();i++) {
+        if (students[i].getFinalGrade() > average)
+            aboveAverage.push_back(students[i]);
+    }
+
+    os<<"Above average students"<<endl;
+
+    os << left << setw(15) << "CODE" << setw(20) << "NAME" << setw(15) << right << "GRADE" << endl;
+
+    for (int i=0; i<aboveAverage.size();i++) {
+        os << left << setw(15) << aboveAverage[i].getCode() << setw(15) << aboveAverage[i].getName() << setw(20) << right<< aboveAverage[i].getFinalGrade() << endl;
+    }
+}
+
+vector<Student>ReadFile(ifstream &inf){
+    char sep = ';';
+    string code,name,temp;
+    double miniexam,proj,exam;
+    vector<Student>students;
+    getline(inf,temp,'\n');
+    while(!inf.eof()){
+        istringstream iss(temp);
+        getline(iss, code, sep);  // these two attributes are strings so the method bellow would not work
+        getline(iss, name, sep);
+        iss >> miniexam >> sep >> proj >> sep >> exam;  // these are ints so the above method would not work
+        Student st(code, name);
+        st.setGrades(miniexam, proj, exam);
+        students.push_back(st);
+        getline(inf, temp, '\n');
+    }
+    return students;
+}
+
+int main(){
+    //--------------------
+    //TEST A
+    //------------------------
+    //Student st("up201806283", "Ines Sofia Alves Sa");
+    //st.setGrades(7,17,12);
+    //cout << st.getName() << " " << st.getCode() <<endl;
+    //cout << st.isApproved() << " " << st.getFinalGrade() <<endl;
+    //--------------------------
+    //TEST B
+    //--------------------------	
+    //int n;
+    //vector<Student>students;
+    //cout << "How many students ? "; cin >> n;
+    //for (int i = 0; i < n; i++) {
+    //    students.push_back(readStudentData());
+    //}
+    //showAboveAverageStudents(cout, students);
+    //return 0;
+    //----------------------
+    //TEST C
+    //------------------------------
+    string inFileName = "test.txt";
+    ifstream inf(inFileName);
+    vector<Student>students = ReadFile(inf);
+    string outFileName = "out.txt";
+    ofstream ofs(outFileName);
+    showAboveAverageStudents(ofs, students);
+}
