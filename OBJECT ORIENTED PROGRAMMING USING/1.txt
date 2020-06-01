@@ -1,0 +1,197 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <iomanip>
+#include <ctime>
+using namespace std;
+
+class Date {
+    friend bool isLeap(int year);
+    friend int daysMonth(int year, int month);
+public:
+    Date();
+    Date(unsigned int year, unsigned int month,unsigned int day);
+    Date(string yearMonthDay); // yearMonthDay must be in format "yyyy/mm/dd"
+    void setYear(unsigned int year) ;
+    void setMonth(unsigned int month) ;
+    void setDay(unsigned int day) ;
+    void setDate(unsigned int year, unsigned int month, unsigned int day) ;
+    unsigned int getYear() const;
+    unsigned int getMonth() const;
+    unsigned int getDay() const;
+    string getDate() const;  // returns the date in format "yyyy/mm/dd"
+    void show() const;// shows the date on the screen in format "yyyy/mm/dd"
+    bool isValid();
+    bool isEqualTo(const Date &date);
+    bool isNotEqualTo(const Date &date);
+    bool isAfter(const Date &date);
+    bool  isBefore(const Date &date);
+    void showMod();
+private:
+    unsigned int year;
+    unsigned int month;
+    unsigned int day;
+};
+
+Date::Date(){ //get date from computer :D thank you stackoverflow *-*
+    time_t t = time(0);
+    tm* now = localtime(&t);
+    year = now->tm_year+1900;
+    month = now->tm_mon+1;
+    day = now->tm_mday;
+}
+
+Date::Date(unsigned int year, unsigned int month,unsigned int day){
+    this->year = year;
+    this->month = month;
+    this->day = day;
+}
+
+Date::Date(string yearMonthDay){
+    char ch = '/';
+    istringstream temp(yearMonthDay);
+    if(temp>>year>>ch>>month>>ch>>day){
+        this->year=year;
+        this->month=month;
+        this->day=day;
+    }
+}
+
+void Date::setYear(unsigned int year){
+    this->year=year;
+}
+
+void Date::setMonth(unsigned int month){
+    this->month=month;
+}
+
+void Date::setDay(unsigned int day){
+    this->day=day;
+}
+
+void Date::setDate(unsigned int year, unsigned int month, unsigned int day){
+    this->year=year;
+    this->month=month;
+    this->day=day;
+}
+
+unsigned int Date::getYear() const{
+    return year;
+}
+
+unsigned int Date::getMonth() const{
+    return month;
+}
+
+unsigned int Date::getDay() const{
+    return day;
+}
+
+string Date::getDate() const{
+    stringstream temp;
+    temp << setfill('0') << setw(4) << year << '/' << setw(2) << month<< '/' << setw(2) << day<<endl;
+    return temp.str();
+}
+
+void Date::show() const{
+    cout<<getDate();
+}
+
+bool isLeap(int year){
+    if (year%400==0){
+        return true;
+    }
+    else if (year%4==0){
+        if(year%100==0)
+            return false;
+        else
+            return true;
+    }
+    else{
+        return false;
+    }
+}
+
+int daysMonth(int year, int month){
+    if (month == 2){
+        if(isLeap(year)){
+            return 29;
+        }
+        else{
+            return 28;
+        }
+    }
+
+    if (month%2==0){
+        return 30;
+    }
+    else{
+        return 31;
+    }
+}
+
+bool Date::isValid() {
+    if (day <= daysMonth(year, month) && month>=1 && month<=12){
+        return true;
+    }
+    else
+        return false;
+}
+
+bool Date::isEqualTo(const Date &date) {
+    if (year == date.year && month == date.month && day == date.day){
+        return true;
+    }
+    else
+        return false;
+}
+
+bool Date::isNotEqualTo(const Date &date) {
+    if (year != date.year || month != date.month || day != date.day){
+        return true;
+    }
+    else
+        return false;
+}
+
+bool Date::isAfter(const Date &date) {
+    if (year > date.year || (year == date.year && month > date.month) || (year == date.year && month == date.month && day > date.day)){
+        return true;
+    }
+}
+
+bool Date::isBefore(const Date &date) {
+    if (!(year > date.year || (year == date.year && month > date.month) || (year == date.year && month == date.month && day > date.day))){
+        return true;
+    }
+
+}
+
+void Date::showMod() {
+    cout << setfill('0') << setw(4) << year << setw(2) << month<< setw(2) << day<<endl;
+}
+
+int main(){
+    Date d1("2020/9/4");
+    Date d2(2000,7,7);
+    Date d3;
+    d1.setDay(4);
+    d1.setMonth(3);
+    d1.setYear(3);
+    d1.show();
+    d2.show();
+    d1.setDate(2008,5,7);
+    d1.show();
+    cout << "\n" << d2.getDay() << " " << d2.getMonth() << " " << d2.getYear() << "\n";
+    cout<<d1.isValid()<<endl;
+    cout<<d1.isEqualTo(d2)<<endl;
+    cout<<d1.isNotEqualTo(d2)<<endl;
+    cout<<d1.isAfter(d2)<<endl;
+    cout<<d2.isBefore(d1)<<endl;
+    d3.show();
+    d3.showMod();
+}
+
+// Explain why the following variable declaration is not possible: Date d1;.
+//   The class Date does not have (yet) a constructor that doesn't take any parameters, so there is no suitable
+//   constructor for this case.
