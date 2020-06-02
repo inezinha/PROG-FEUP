@@ -6,6 +6,7 @@ Invoice::Invoice(Client client, vector<Item>items){
     this->clientName=client.getName();
     this->adress=client.getAdress();
     this->items=items;
+    totalissimo = 0;
     for (int i=0;i<items.size();i++)
         totalissimo += items[i].getTotal();
 }

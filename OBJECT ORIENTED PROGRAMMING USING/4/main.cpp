@@ -3,10 +3,12 @@
 #include "Item.h"
 
 int main() {
-    Invoice i1(Client("Inesoca Maloca","Rua dos malocos 3456-123"),{});
-    i1.add(Item(Product("salmao",2),10));
-    i1.add(Item(Product("sofa",500),4));
-    i1.add(Item(Product("protetor solar",5),3));
-    i1.showAllnice();
+    Client Client("DEI- FEUP ", "Rua Dr. Roberto Frias, s/n \n4200 - 465 Porto ");
+    Product Product1("Computer", 999.90);
+    Product Product2("Printer", 149.90);
+    Item Item1(Product1, 10);
+    Item Item2(Product2, 1);
+    Invoice Invoice(Client, { Item1,Item2 });
+    Invoice.showAllnice();
     return 0;
 }

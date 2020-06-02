@@ -7,17 +7,13 @@
 class Item{
 public:
     Item();
-    Item(Product product, unsigned num);
-    void setDescription(Product product);
-    void setPrice(Product product);
-    void setNum();
-    void setTotal();
+    Item(Product product, unsigned int num);
     string getDescription();
     double getPrice();
-    int getNum();
+    unsigned int getNum();
     double getTotal();
 private:
-    unsigned num;
+    unsigned int num;
     double price,total;
     string description;
 };
