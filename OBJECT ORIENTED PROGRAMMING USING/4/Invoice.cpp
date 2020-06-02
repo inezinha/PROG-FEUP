@@ -20,7 +20,3 @@ void Invoice::showAllnice() {
     }
     cout<<endl<<"Amont due: "<<totalissimo<<" euros";
 }
-
-void Invoice::add(Item item) {
-    items.push_back(item);
-}

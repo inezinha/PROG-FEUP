@@ -9,8 +9,6 @@ class Product{
 public:
     Product();
     Product(string description, double price);
-    void setDescription();
-    void setPrice();
     string getDescription();
     double getPrice();
 private:

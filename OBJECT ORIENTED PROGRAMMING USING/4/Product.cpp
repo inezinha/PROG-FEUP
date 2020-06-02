@@ -7,14 +7,6 @@ Product::Product(string description, double price){
     this->price=price;
 }
 
-void Product::setDescription(){
-    this->description=description;
-}
-
-void Product::setPrice() {
-    this->price=price;
-}
-
 string Product::getDescription(){
     return description;
 }

@@ -9,11 +9,8 @@ class Client{
 public:
     Client();
     Client(string name, string adress);
-    void setName();
-    void setAdress();
     string getName();
     string getAdress();
-    //void showAll();
 private:
     string name;
     string adress;

@@ -13,7 +13,6 @@ public:
     Invoice();
     Invoice(Client client, vector<Item>items);
     void showAllnice();
-    void add(Item item);
 
 private:
     string clientName, adress;
