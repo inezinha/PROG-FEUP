@@ -15,11 +15,4 @@ private:
     string description;
     double price;
 };
-
-
-
-
-
-
-
 #endif //CLIONPROJECTS_PRODUCT_H
