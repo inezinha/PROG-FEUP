@@ -1,0 +1,36 @@
+#include <iostream>
+#include <cstddef>
+#include <string>
+#include <vector>
+using namespace std;
+
+template <typename T>
+void MaxMin(vector<T>v){
+    T max,min;
+    for(int i=0;i<v.size();i++){
+        if(i==0){
+            max=v[i];
+            min=v[i];
+        }
+        else if(max<v[i]){
+            max=v[i];
+        }
+        else if(min>v[i]){
+            min=v[i];
+        }
+    }
+    cout<<"max: "<<max<<"    min: "<<min<<endl<<endl;
+}
+
+int main(){
+    vector<int>v1={5,3,1,6,7,8};
+    vector<string>s1={"inesoca","marinoca","jessicoca"};
+    vector<double>d1={2.5,6.8,1.1,0.9};
+    vector<char>c1={'k','g','a','t'};
+
+    MaxMin(v1);
+    MaxMin(s1);
+    MaxMin(d1);
+    MaxMin(c1);
+    return 0;
+}
