@@ -1,0 +1,112 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+#include <iomanip>
+using namespace std;
+
+/*----------------------------------------------------------
+ *            CLASS PRODUCT AND ITS METHODS
+ * ----------------------------------------------------*/
+
+class Product{
+public:
+    Product();
+    Product(int id, string description, int qty);
+    int getId();
+    string getDescription();
+    int getAvailableQty();
+    int reduceAvailableQty();
+
+private:
+    int id;
+    int availableQty;
+    string description;
+};
+
+Product::Product()=default;
+
+Product::Product(int id, string description, int availableQty){
+    this->id=id;
+    this->description=description;
+    this->availableQty=availableQty;
+}
+
+int Product::getId(){
+    return id;
+}
+
+string Product::getDescription(){
+    return description;
+}
+
+int Product::getAvailableQty(){
+    return availableQty;
+}
+
+int Product::reduceAvailableQty() {
+    return availableQty--;
+}
+
+/*----------------------------------------------------------
+ *            CLASS INVENTORY AND ITS METHODS
+ * ----------------------------------------------------*/
+
+class Inventory {
+public:
+    Inventory(vector <Product> products);
+    void processOrder(int id);
+    void processShipment(int id);
+    void showAll();
+private:
+    vector <Product> products;
+    vector <Product> backOrders;
+};
+
+Inventory::Inventory(vector <Product> products) {
+    this->products = products;
+}
+
+void Inventory::processOrder (int id) {
+    if (products[id].getAvailableQty() > 0)
+        products[id].reduceAvailableQty();
+
+    else
+        backOrders.push_back(products[id]);
+}
+
+void Inventory::processShipment(int id) {
+    for (int i = 0; i < backOrders.size(); i++) {
+        if (backOrders[i].getId() == id)
+            products[id].reduceAvailableQty();
+    }
+}
+
+void Inventory::showAll(){
+    cout<<setw(20)<<left<<"Description"<<setw(10)<<left<<"Id"<<setw(10)<<left<<"Available Qty"<<endl;
+    cout << "-----------     ------      -------------"<<endl;
+    for(int i=0;i<products.size();i++){
+        cout<<setw(20)<<left<<products[i].getDescription()<<setw(10)<<left<<products[i].getId()<<setw(10)<<left<<products[i].getAvailableQty()<<endl;
+    }
+}
+
+int main(){
+    vector<Product>products;
+    Product p1(1,"computador",20); products.push_back(p1);
+    Product p2(2,"sofas",3); products.push_back(p2);
+    Product p3(3,"cremes",55); products.push_back(p3);
+
+    Inventory i1(products);
+    i1.showAll();
+
+    i1.processOrder(p1.getId());
+    i1.processOrder(p2.getId());
+    i1.processOrder(p3.getId());
+    i1.processShipment(p2.getId());
+
+    cout<<endl<<"After processing the orders and the shipments: "<<endl<<endl;
+    i1.showAll();
+
+    return 0;
+}
+
