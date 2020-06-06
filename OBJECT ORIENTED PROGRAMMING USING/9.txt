@@ -1,0 +1,88 @@
+9.a)
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <sstream>
+#include <fstream>
+using namespace std;
+
+void removeDuplicates(vector<string>&v){
+    for (int i=0;i<v.size();i++){
+        for (int j=i-1;j>=0;j--){
+            if (v[i]==v[j]){
+                for (int k=i+1; k<v.size(); k++) //isto puxa 'uma casa' para esquerda os elementos
+					v[k-1] = v[k];
+				v.resize(v.size()-1);
+				i--;
+            }
+        }
+    }
+}
+
+int main(){
+    vector<string>v;
+    string line,word;
+    ifstream f("nomes.txt");
+
+    if(!(f.fail())) {
+        while (getline(f, line)) {
+            istringstream words(line);
+            words >> word;
+            v.push_back(word);
+        }
+        f.close();
+    }
+
+    sort(v.begin(),v.end()); //sorts words
+    removeDuplicates(v); //removes duplicate words
+
+    ofstream file("novo.txt");
+    for(int i=0;i<v.size();i++){
+        file<<v[i]<<endl;
+    }
+    file.close();
+
+    return 0;
+}
+
+------------------------------------------------------------------
+9.b)
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <sstream>
+#include <fstream>
+using namespace std;
+
+int main(){
+    vector<string>v;
+    string line,word;
+    ifstream f("nomes.txt");
+
+    if(!(f.fail())) {
+        while (getline(f, line,' ')) {
+            istringstream words(line);
+            words >> word;
+            v.push_back(word);
+        }
+        f.close();
+    }
+
+    vector<int>myvector(v.begin(),v.begin()+10);
+    vector<int>::iterator it;
+    sort(v.begin(),v.end()); //sorts words
+    it = unique(myvector.begin(),myvector.end()); //removes duplicate words
+    myvector.resize(distance(myvector.begin(),it));
+
+    ofstream file("novo.txt");
+    for(it = myvector.begin() ;it != myvector.end() ; ++it){
+        file<< *it <<endl;
+    }
+    file.close();
+
+    return 0;
+}
