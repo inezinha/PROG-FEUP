@@ -1,0 +1,32 @@
+#include <iostream>
+#include <list>
+#include <algorithm>
+#include <string>
+#include <sstream>
+#include <fstream>
+using namespace std;
+
+void removeDuplicates(list<string>&words) {
+    words.erase(unique(words.begin(), words.end()), words.end());
+}
+
+int main(){
+    list<string>lst;
+    string line,word;
+    ifstream f("nomes.txt");
+    if(!(f.fail())) {
+        while (getline(f, line)) {
+            istringstream words(line);
+            words >> word;
+            lst.push_back(word);
+        }
+        f.close();
+    }
+    lst.sort(); //sorts words
+    removeDuplicates(lst); //removes duplicate words
+    ofstream file("novo.txt");
+    for (const auto &i : lst)
+        file << i << "\n";
+    file.close();
+    return 0;
+}
