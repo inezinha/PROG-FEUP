@@ -1,0 +1,267 @@
+1) FEITO NO ENUNCIADO  :D
+----------------------------------------------------------------
+2)
+
+-----------------------------------------------------------------
+a)
+int count(const vector<int>&v, int value){
+    int count=0;
+    for(int i=0;i<v.size();i++){
+        if(v[i]==value)
+            count++;
+    }
+    return count;
+}
+--------------------------------------------------------------------
+c)
+int main(){
+    vector<int>v;
+    int value,num;
+    cout<<"Enter the value: ";cin>>value;
+    while(true){
+        cout<<"Enter a number";cin>>num;
+        if(cin.fail()){
+            if(cin.eof())
+                break;
+        }
+        v.push_back(num);
+    }
+    cout<<count(v,value);
+}
+-------------------------------------------------------------------
+d)
+template <typename T>
+int count(const vector<T>&v, T value){
+    int count=0;
+    for(int i=0;i<v.size();i++){
+        if(v[i]==value)
+            count++;
+    }
+    return count;
+}
+-------------------------------------------------------------------
+f)
+int count(const int a[], int value){
+    int count=0;
+    for(int i=0;i<100;i++){
+        if(a[i]==value)
+            count++;
+    }
+    return count;
+}
+
+int main(){
+    int a[100];
+    int value,num,i=0;
+    cout<<"Enter the value: ";cin>>value;
+    while(true){
+        cout<<"Enter a number";cin>>num;
+        if(cin.fail()){
+            if(cin.eof())
+                break;
+        }
+        a[i]=num;
+        i++;
+    }
+    cout<<count(a,value);
+}
+--------------------------------------------------------------
+g)
+size_t count(v.begin(),v.end(),value)
+--------------------------------------------------------------
+
+3)
+
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <iomanip>
+using namespace std;
+
+class Time{
+public:
+    Time(string time);
+    Time(int h=0,int m=0, int s=0);
+    void setH(int h);
+    void setM(int m);
+    void setS(int s);
+    int getH()const;
+    int getM()const;
+    int getS()const;
+    string getStr() const;
+    Time operator+(const Time &t1) const;
+private:
+    int h,m,s;
+};
+
+Time::Time(string time) {
+    char ch = ':';
+    istringstream temp(time);
+    if(temp>>h>>ch>>m>>ch>>s){
+        this->h=h;
+        this->m=m;
+        this->s=s;
+    }
+}
+
+Time::Time(int h, int m, int s) {
+    this->h=h;
+    this->m=m;
+    this->s=s;
+}
+
+void Time::setH(int h){
+    this->h=h;
+};
+
+void Time::setM(int m){
+    this->m=m;
+};
+
+void Time::setS(int s){
+    this->s=s;
+};
+
+int Time::getH() const {
+    return h;
+}
+
+int Time::getM() const {
+    return m;
+}
+
+int Time::getS() const {
+    return s;
+}
+
+string Time::getStr()const {
+    ostringstream temp;
+    temp<<setfill('0')<<setw(2)<<h<<':'<<setw(2)<<m<<':'<<setw(2)<<s<<endl;
+    return temp.str();
+}
+
+Time Time::operator+(const Time &t1) const {
+    Time temp;
+    temp.s = s + t1.s;
+    temp.m = m + t1.m + temp.s/60;
+    temp.h = h + t1.h + temp.m/60;
+    temp.s = temp.s%60;
+    temp.m = temp.m%60;
+    return temp;
+}
+
+Time Time::operator-(const Time &t1) const {
+    int nDiff(h*3600 + m*60 - (t1.h*3600 + t1.m*60));
+    int nHours(nDiff/3600);
+    int nMins((nDiff%3600)/60);
+    return Time(nHours, nMins);
+}
+
+int main(){
+    Time result;
+    string time;
+    cout<<"Enter a time: ";cin>>time;
+    Time t1(time);
+    Time t2("08:00:00");
+    result = t1 + t2;
+    cout<<result.getStr();
+    return 0;
+}
+
+----------------------------------------------------------------------------
+
+4)
+
+#include <vector>
+#include <fstream>
+#include "Time.h"
+
+int main(){
+    vector<Time>hour;
+    vector<double>temp;
+    vector<string>lines;
+    string line;
+    int hora,min;
+    double temperature;
+    char oper;
+
+    ifstream f("temp.txt");
+    if(f.fail()){
+        cerr<<"EEROR OPENING THE FILE"<<endl;
+        exit(1);
+    }
+
+    else{
+        while (getline(f, line)) {
+            stringstream input(line);
+            if(input >> hora >> oper >> min >> oper >> temperature){
+                Time timezito(hora,min);
+                hour.push_back(timezito);
+                temp.push_back(temperature);
+            }
+            lines.push_back(line);
+        }
+        f.close();
+    }
+    cout<<lines[0]<<endl;
+
+    Time dif;
+    double dif_temp;
+    Time subida(0,0);
+
+    for(int i=1;i<temp.size();i++){
+        dif_temp = (temp[i])-(temp[i-1]);
+        dif = hour[i]-hour[i-1];
+        if(dif_temp>0){
+            cout<<lines[i]<<" - subiu durante  "<< dif.getStr();
+            subida = subida + dif;
+        }
+        else if(dif_temp==0){
+            cout<<lines[i]<<" - estavel durante  "<<dif.getStr();
+        }
+        else{
+            cout<<lines[i]<<" - desceu durante  "<<dif.getStr();
+        }
+    }
+    cout<<"A TEMPERATURA SUBIU DURANTE  "<<subida.getStr();
+    return 0;
+}
+
+---------------------------------------------------------------------------
+
+5
+b)
+void Book::buildIndex(const set<string>&words){
+    set<string>::iterator it=words.begin();
+    for(it;it!=words.end();it++){
+        for(int i=0;i<pages.size();i++){
+            if(pages[i].hasword(*it)){
+                index[*it].push_back(pages[i].getPageNumber());
+            }
+        }
+    }
+}
+
+              -----  OU  ------
+
+
+void Book::buildIndex(const set<string>& words) {
+    for (auto i : words) {
+        for (auto j : pages) {
+            if (j.hasWord(i)) {
+                index[i].push_back(j.getPageNumber());
+            }
+        }
+    }
+}
+
+
+---------------------------------------------------------------------------
+c)
+int main(){
+    Book b("C++Book.txt");
+    set<string>words={"computer","algorithm","program"};
+    builIndex(words);
+    B.showIndex(cout);
+    return 0;
+}
