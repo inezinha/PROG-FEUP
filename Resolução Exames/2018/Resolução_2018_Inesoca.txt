@@ -1,0 +1,182 @@
+//                                     1
+//---------------------------------------------------------------------------------
+//a)
+void toUpperStr(string &s){
+    string o="";
+    for (int i=0;i<s.size();i++)
+        o+=toupper(s[i]);
+    s=o;
+    cout<<s;
+}
+//----------------------------------------------------------------------------------
+//b)
+string transformLine(string s){
+    string newLine = s;
+    for(int i=0;i<newLine.size();i++){
+        if(!(isalpha(newLine[i])))
+            newLine[i]=' ';
+    }
+    toUpperStr(newLine);
+    return newLine;
+}
+//-----------------------------------------------------------------------------------
+//c)
+void decomposeLine(string line, vector<string>words){
+    string word;
+    stringstream result;
+    line = transformLine(line);
+    result<<line;
+    while(result>>word)
+        words.push_back(word);
+}
+//------------------------------------------------------------------------------------
+//d)
+int main(){
+    string line;
+    vector<string>v;
+    ifstream f("C:\\docs\text.txt");
+    while(getline(f,line)){
+        decomposeLine(line,v);
+    }
+    f.close();
+    sort(v.begin(),v.end()); // to sort the elements in the vector
+    v.erase(unique(v.begin(), v.end()), v.end()); //ALÍNEA E) to remove duplicates
+    ofstream file("C:\\docs\words");
+    for(int i=0;i<v.size();i++){
+        file<<v[i]<<endl;
+    }
+    file.close();
+    return 0;
+}
+//-----------------------------------------------------------------------------------------
+//                                                      2
+--------------------------------------------------------------------------------------------------
+//a)
+/*  A classe Board tem um constructer que assume os parametros numLines=10 e numColumns=10, 
+  caso estes não sejam passados ao fazer a declaração.
+  A classe Ship, por outro lado, não tem um default constructer pelo que quando se quiser declarar
+ uma variável Ship terá que se passar os parâmetros identifier, symbol, position, direction e size.*/
+//-------------------------------------------------------------------------------------
+//b)
+Board::Board(size_t numLines, size_t numColumns){
+    for(int i=0;i<numLines;i++){
+        vector<int>temp(numColumns,-1);
+        board.push_back(temp);
+    }
+    this->numLines=numLines;
+    this->numColumns=numColumns;
+}
+//-------------------------------------------------------------------------------------
+//c)
+bool Board::canPutShip(Position pos, char dir, size_t size) {
+	switch (dir)
+	{
+	case 'H':
+		if (pos.col < 0 || pos.col + size >= numColumns || pos.lin < 0 || pos.lin >= numLines)
+			return false;
+		for (int i = pos.col; i < pos.col + size; i++)
+			if (board[pos.lin][i] != -1)
+				return false;
+		break;
+	case 'V':
+		if (pos.col < 0 || pos.col >= numColumns || pos.lin < 0 || pos.lin + size >= numLines)
+			return false;
+		for (int i = pos.lin; i < pos.lin + size; i++)
+			if (board[i][pos.col] != -1)
+				return false;
+		break;
+	}
+	return true;
+}
+//-------------------------------------------------------------------------------------
+//d)
+ bool Board::putShip(const Ship &s){
+    if (!canPutShip(s.pos(),s.dir(),s.size())){
+    return false;
+    }    
+    else{
+        ships.push_back(s);
+        if(s.dir()=='H'){
+            for (int i = s.pos().col; i < s.pos().col + size; i++)
+                board[s.pos().lin][i] = s.id();
+            
+        }
+        else if(s.dir()=='V'){
+            for (int i = s.pos().lin; i < s.pos().lin + size; i++)
+                board[i][pos().col] = s.id();
+            
+        }
+    }
+    return true;
+}
+//-------------------------------------------------------------------------------------
+//e)
+int main(){
+    Board b(10,20);
+    unsigned  int identifier;
+    char symbol,direction;
+    Position pos;
+    size_t size;
+    cout<<"Enter the ship data(Id, symbol, position, direction and size) ";cin>>identifier>>symbol>>pos.lin>>pos.col>>direction>>size;
+    Ship shipzito(identifier, symbol, pos, direction,size);
+    if(!b.putShip(shipzito)){
+        throw exception("Can't put ship");
+    }
+    else
+        b.putShip(shipzito);
+    return 0;
+}
+//-----------------------------------------------------------------------------------
+//                                         3
+//-----------------------------------------------------------------------------------
+a1)
+
+float average(const int grades[], int numStudents)
+{
+	float sum = 0;
+	for (int i = 0; i < numStudents; i++)
+		sum += grades[i];
+	return sum / numStudents;
+}
+
+a2)
+
+int main()
+{
+	int *grades, numStudents;
+	cout << "Insert the number of students: ";
+	cin >> numStudents;
+	grades = new int[numStudents];
+	readGrades(grades, numStudents);
+	cout << average(grades, numStudents);
+	return 0;
+}
+
+//--------------------------------------------------------------------------------------
+b)
+if (find(v.begin(), v.end(), "31") != v.end())
+	cout << "The value was found.";
+else
+	cout << "The value was not found.";
+//--------------------------------------------------------------------------------------
+c)
+/*sets são containers cujos elementos estão ordenados, portanto, para criar
+um set de positions, seria necessário criar um método para comparar/ordenar
+esta struct (por exemplo, fazer overload do operator<).*/
+//--------------------------------------------------------------------------------------
+//d) A saída do programa é:
+2 3
+2
+2 3
+
+Caso se tirasse o qualificativo virtual, a saída seria:
+2 3
+2
+2
+
+Se o qualificativo protected da classe Base fosse substituído por private,
+a classe Derived não teria possibilidade de aceder ao membro _a, uma vez que
+apenas a classe Base teria acesso a este.
+
+
+
