@@ -1,0 +1,186 @@
+/*---------------------------------------------------------------------------------------
+                                1
+-----------------------------------------------------------------------------------------*/
+//a)
+void get_code_sum(const string &code_grades, int num_grades, string &code, double &sum){
+    char ch;
+    double num;
+    istringstream i(code_grades);
+    i>>code>>ch;
+    while(i>>num){
+        sum+=num;
+    }
+}
+//-------------------------------------------------------------------------------------
+//b)
+int main(){
+    string raiz, line, code, numTestes,aluno;
+    double sum;
+    vector<string>alunos;
+    cout<<"Enter the name of the file: ";cin>>raiz;
+    string infile = raiz + ".txt";
+    string outfile = raiz + "_final.txt";
+
+    ifstream f(infile);
+    if(f.fail()){
+        cerr<<"ERROR OPENING FILE";
+        exit(1);
+    }
+    else{
+        getline(f,numTestes);
+        while(getline(f,line)){
+            get_code_sum(line,stoi(numTestes),code,sum);
+            ostringstream outstr;
+            outstr<<sum;
+            aluno = code + " - " + outstr.str();
+            alunos.push_back(aluno);
+        }
+    }
+    f.close();
+
+    ofstream file(outfile);
+    file<<numTestes<<endl;
+    for(int i=0;i<alunos.size();i++){
+        file<<alunos[i]<<endl;
+    }
+    file.close();
+}
+/*-----------------------------------------------------------------------------------
+                                2
+-------------------------------------------------------------------------------------*/
+//a)
+
+int Student::weightShortExam = 20;
+int Student::weightProject = 30;
+int Student::weightExam = 50;
+
+void Student::setGrades(double shortExam, double project, double exam) {
+    this->shortExam=shortExam;
+    this->project=project;
+    this->exam=exam;
+    this->finalGrade=round(shortExam*weightShortExam + project*weightProject + exam*weightExam)/100;
+}
+//Usa-se static porque os pesos são iguais para todos os estudantes
+
+//-------------------------------------------------------------------------------------
+//b)
+
+Student readStudentData(){
+    string stcode,stname;
+    double gradeExam,gradeShortExam,gradeProj;
+    cout<<"Student code? ";cin>>stcode;
+    cin.ignore();
+    cout<<"Student name? ";getline(cin,stname);
+    Student st(stcode,stname);
+    cout<<"Short exam grade? ";cin>>gradeShortExam;
+    cout<<"Project grade? ";cin>>gradeProj;
+    cout<<"Exam grade? ";cin>>gradeExam;
+    st.setGrades(gradeShortExam,gradeProj,gradeExam);
+    return st;
+}
+
+//-------------------------------------------------------------------------------------
+//c)
+
+void showApproved(ostream &out, const vector<Student>&students){
+    for (int i=0;i<students.size();i++){
+        if (students[i].getFinalGrade()>9.5){
+            out<<setw(50)<<left<<students[i].getName()<<setw(4)<<left<<students[i].getFinalGrade();
+        }
+    }
+}
+
+/*-----------------------------------------------------------------------------------
+                                3
+-------------------------------------------------------------------------------------*/
+//a)
+
+Pluviosity::Pluviosity(int year){
+    this->year=year;
+    vector<int>temp;
+    for(int i=1;i<12;i++){
+        for(j=1;j<numDaysOfMonth(i, year);j++){
+            temp.push_back(0);
+        }
+        pluv.push_back(temp);
+    }
+}
+
+//-------------------------------------------------------------------------------------
+//b)
+
+int Pluviosity::maxPluv() {
+    int max=-999999;
+    for (int i=0;i<pluv.size();i++){
+        for(int j=0;j<pluv[i].size();j++){
+            if (pluv[i][j]>max){
+                max = pluv[i][j];
+            }
+        }
+    }
+    return max;
+}
+
+/*-----------------------------------------------------------------------------------
+                                4
+-------------------------------------------------------------------------------------*/
+/* a)
+
+       reserva estática de espaço:               
+	 int p[100];
+
+       chamada a average():
+	 average(p,100);
+
+ 
+      reserva dinâmica de espaço:
+	int*p = new int[100];
+
+      chamada a average():
+	average(p,100);
+
+b) We can throw an exception using the throw keyword. We can also include a message to 
+  describe the error. This way, when we create an object inside a try-catch block, that
+  exception will be caught and we can then handle it however necessary. 
+
+c) Quando alocamos espaço dinamicamente numa classe(com new ou malloc), devemos libertar a memória quando
+   o objeto é destruído para evitar erros de memória e para permitir ao programa para 
+   usar esse espaço de memória outra vez, chamamos então o destructer para libertar esse espaço(com delete).
+
+d) The << operator returns a reference to the operand to its left(commonly an istream)
+   so that we can chain the operator.
+
+e)      overloading do operador: 
+        bool operator < (const student &left, const student &right){
+            return left.name<right.name;
+        }
+
+
+
+	chamada a sort(): 
+	sort(studProg.begin(),studProg.end());
+
+f) vector<shape*>, since rectangles, triangles and circles are derived from the class
+   shape. Assuming the function used to draw the shapes is virtual, we can rely on 
+   polymorphism to cll the correct function based on the type of shape.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
