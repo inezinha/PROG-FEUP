@@ -1,0 +1,269 @@
+//                      1
+//------------------------------------------------------
+//a)
+int main(){
+    string line,newName;
+    ifstream f("people1.txt");
+    ofstream file("people2.txt");
+    if(f.fail()){
+        cerr<<"people1.txt nout found";
+        exit(1);
+    }
+    else{
+        while(getline(f,line)){
+            simplify(line,newName);
+            file<<newName<<endl;
+        }
+    }
+    return 0;
+}
+//------------------------------------------------------
+//b)
+void simplify(const string &name, string &sName){
+    int index,i;
+    index = name.find_first_of(" ");
+    if(index>0){
+        sName = name.substr(0,index);
+        i = name.find_last_of(" ");
+        sName = sName + " " + name.substr(i+1,-1);
+    }
+    else
+        sName = name.substr(0,index);
+}
+//----------------------------------------------------
+//c)
+int main(){
+    vector<string>names;
+    string line,newName;
+    ifstream f("people1.txt");
+    ofstream file("people2.txt");
+    if(f.fail()){
+        cerr<<"people1.txt nout found";
+        exit(1);
+    }
+    else{
+        while(getline(f,line)){
+            simplify(line,newName);
+            names.push_back(newName);
+        }
+    }
+    sort(names.begin(),names.end());
+    for (int i=0;i<names.size();i++){
+        file<<names[i]<<endl;
+    }
+    return 0;
+}
+//----------------------------------------------------
+//                     2
+//----------------------------------------------------
+#include <iostream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+class Date {
+    friend istream & operator>>(istream & f, Date & date);
+    friend ostream & operator<<(ostream & f, const Date & date);
+    friend bool operator<(const Date& left, const Date& right);
+    friend bool operator==(const Date& left, const Date& right);
+public:
+    Date(int y=1, int m=1, int d=1);
+    // ... other methods
+private:
+    int y, m, d; // year, month, day
+};
+
+//------------------------------a------------------------------------
+
+Date::Date(int y, int m, int d) {
+    this->y=y;
+    this->m=m;
+    this->d=d;
+}
+
+//----------------------------------------------------------------------
+
+bool operator==(const Date& left, const Date& right)
+{
+    if (left.y == right.y && left.m == right.m && left.d == right.d)
+        return true;
+    return false;
+}
+
+//------------------------------b-----------------------------------------
+
+bool operator<(const Date& left, const Date& right){
+    if (!(left.y < right.y || (left.y== right.y && left.m < right.m) || (left.y == right.y && left.m == right.m && left.d< right.d))){
+        return true;
+    }
+    return false;
+}
+
+//------------------------------c--------------------------------------------
+
+istream & operator>>(istream & f, Date & date){
+    string DateString;
+    char fracSymbol;
+    int year,month,day;
+    getline(f,DateString);
+    istringstream DateStrStream(DateString);
+    if(!(DateStrStream >> year >> fracSymbol >> month >> fracSymbol >> day)){
+        runtime_error invalidDate("invalid Date");
+        throw invalidDate;
+    }
+    else{
+        date = Date(year, month, day);
+        return f;
+    }
+}
+
+//------------------------------d-----------------------------------------------
+
+int main(){
+    Date d1, d2;
+    try
+    {
+        cout << "Date 1 ? " << endl;
+        cin >> d1;
+        cout << "Date 2 ? " << endl;
+        cin >> d2;
+    }
+    catch (runtime_error &err)
+    {
+        cerr << err.what();
+        return 1;
+    }
+
+    if(d1<d2)
+        cout<<"before";
+    else if(d1==d2)
+        cout<<"equal";
+    else
+        cout<<"after";
+    
+    return 0;
+}
+
+//-------------------------------------------------------------------------------
+//                                    3
+//-------------------------------------------------------------------------------
+//a)
+
+int getPixel(size_t lin, size_t col) const;
+
+//-------------------------------------------------------------------------------
+//b)
+
+Image Image::getRegion(size_t lin, size_t col, size_t nLins, size_t nCols)const{
+    Image region(nLins, nCols);
+    for (size_t i = 0; i < nLins; i++)
+        for (size_t j = 0; j < nCols; j++)
+            region.img[i][j] = img[lin + i][col + j];
+    return region;
+}
+
+//--------------------------------------------------------------------------------------------------------------------------
+//c)
+// Usaria multimap<Date,Image> pois num multimap cada key(Date) pode ter vários valores(Image) e porque tem acesso rápido.
+
+//----------------------------------------------------------------------------------------------------------------------------
+//d)  NÃO TENHO A CERTEZA SE ESTÁ BEM PORQUE NÃO DÁ PARA TESTAR :P
+
+int main(){
+    int y,m,d;
+    string file;
+    Image img;
+    vector<string>files;
+    multimap<Date,Image>images;
+    cout<<"Enter a date";cin>>y>>m>>d;
+    Date d1(y,m,d);
+    while(file != ""){
+        cout<<"Enter the name of the files";cin>>file;
+        files.push_back(file);
+    }
+    for(int i=0;i<files.size();i++){
+        img.read(files[i]);
+        images.insert(make_pair(d1,img));
+    }
+    return 0;
+}
+
+//-------------------------------------------------------------------------------
+//e)
+
+template <class T>
+class Image {
+public:
+    Image(size_t nLins=0, size_t nCols=0, T pixVal=0); 
+    void setPixel(size_t lin, size_t col, T pixVal); 
+    bool read(string fileName); 
+    T getPixel(size_t lin, size_t col) const;
+    Image getRegion(size_t lin, size_t col, size_t nLins, size_t nCols) const;
+private:
+    vector < vector<T> > img;
+};
+
+//-------------------------------------------------------------------------------
+//                                    4
+//-------------------------------------------------------------------------------
+//a)
+
+/*int readNumber(string msg){
+    int number;
+    cout << msg; cin >> number;
+    return number;
+}*/
+
+/*int main(){
+    string msg="Grade?";
+    int grade;
+    grade = readNumber(msg);
+    return 0;
+}*/
+
+int readNumber(string &msg){
+    int number;
+    cout << msg; cin >> number;
+    return number;
+}
+
+int main(){
+    string msg="Grade?";
+    int grade;
+    grade = readNumber(msg);
+    return 0;
+}
+
+/*-------------------------------------------------------------------------------
+b) Sim, é possível. A classe Date tem um constructer com valores default caso 
+   ao fazer-se a declaração de uma variável do tipo Date esses parametros não sejam passados
+  ela assume y=1,m=1,d=1.
+-------------------------------------------------------------------------------
+c) 
+     int **p,rows,cols;
+     Sim, porque nesta maneira tem que se alocar espaço com new ou malloc.
+
+*/
+//-------------------------------------------------------------------------------
+//d) 
+Image::Image(size_t nLins=0, size_t nCols=0, int pixVal=0){
+    this->nLins = nLins;
+    this->nCols = nCols;
+    img = new int*[nLins];
+    for (int i=0;i<nLins;i++){
+        img[i] = new int[nCols];
+    }
+    for (int y = 0; y < nLins; y++)
+        for (int x = 0; x < nCols; x++)
+            img[y][x] = pixVal;
+}
+/*-------------------------------------------------------------------------------
+e) A list consiste num container bidirectional, e o sort aceita apenas
+   random access iterators.
+-------------------------------------------------------------------------------
+f) Definiu-se o método draw como uma pure virtual function, o que significa
+   que não tem corpo e este terá de ser definido em todas as derived classes,
+   portanto esta classe é abstrata.
+*/
+
+
