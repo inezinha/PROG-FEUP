@@ -120,6 +120,14 @@ int Pluviosity::maxPluv() {
     }
     return max;
 }
+/*-------------------------------------------------------------------------------------
+c)
+definição da estrutura: 
+map<string, set<Pluviosity>> 
+
+justificação:
+para fazer corresponder cada localidade às suas pluviosidades em cada ano 
+(tem que se fazer overload do operador < para a inserção no set funcionar corretamente)*/
 
 /*-----------------------------------------------------------------------------------
                                 4
@@ -147,8 +155,9 @@ c) Quando alocamos espaço dinamicamente numa classe(com new ou malloc), devemos
    o objeto é destruído para evitar erros de memória e para permitir ao programa para 
    usar esse espaço de memória outra vez, chamamos então o destructer para libertar esse espaço(com delete).
 
-d) The << operator returns a reference to the operand to its left(commonly an istream)
-   so that we can chain the operator.
+d) Assim pode-se fazer a inserção várias vezes de maneira seguida.
+   Ou seja,a stream à esquerda é sempre modificada aos poucos, daí ao fazer overload,
+   deve-se retornar essa stream da esquerda modificada.
 
 e)      overloading do operador: 
         bool operator < (const student &left, const student &right){
@@ -162,7 +171,7 @@ e)      overloading do operador:
 
 f) vector<shape*>, since rectangles, triangles and circles are derived from the class
    shape. Assuming the function used to draw the shapes is virtual, we can rely on 
-   polymorphism to cll the correct function based on the type of shape.
+   polymorphism to call the correct function based on the type of shape.
 
 
 
