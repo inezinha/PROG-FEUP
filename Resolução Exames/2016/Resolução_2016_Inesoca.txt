@@ -1,0 +1,218 @@
+/*------------------------------------------------------------------
+                            1
+-------------------------------------------------------------------*/
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+using namespace std;
+
+class Purse {
+public:
+    Purse();
+    Purse(string owner);
+    void addCoin(float coin);
+    void addCoins(vector<float>coins);
+    bool removeCoin(float coin);
+    bool removeAmount(float amount, vector<float>&coins);
+    float tellAmount() const;
+    vector<float>tellCoins() const;
+    void show() const;
+    static vector<float>possibleCoins;
+private:
+    string owner;
+    vector<float>coins;
+    float amount;
+};
+bool operator==(const Purse &p1, const Purse &p2);
+
+vector<float>Purse::possibleCoins{2,1,0.5,0.2,0.1};
+
+Purse::Purse()=default;
+
+Purse::Purse(string owner) {
+    this->owner=owner;
+    this->amount=0;
+}
+
+void Purse::addCoin(float coin) {
+    coins.push_back(coin);
+}
+
+float Purse::tellAmount() const {
+    return amount;
+}
+
+vector<float> Purse::tellCoins() const {
+    return coins;
+}
+
+void Purse::addCoins(vector<float>coins) {
+    for (int i=0;i<coins.size();i++){
+        this->coins.push_back(coins[i]);
+        amount+=coins[i];
+    }
+}
+
+bool Purse::removeCoin(float coin) {
+    for(int i=0;i<coins.size();i++){
+        if(coins[i]==coin){
+            for(int j=i+1;j<coins.size();j++){
+                coins[j-1]=coins[j];
+            }
+            coins.resize(coins.size()-1);
+            amount-=coins[i];
+            return true;
+        }
+    }
+    return false;
+}
+
+void Purse::show() const {
+    for(int i=0;i<coins.size();i++){
+        cout<<coins[i]<<endl;
+    }
+}
+
+bool operator==(const Purse &p1, const Purse &p2){
+    if(p1.tellAmount()!=p2.tellAmount()){
+        return false;
+    }
+    sort(p1.tellCoins().begin(),p1.tellCoins().end());
+    sort(p2.tellCoins().begin(),p2.tellCoins().end());
+
+    return p1.tellCoins() == p2.tellCoins();
+}
+
+int main(){
+    srand((unsigned int) time (NULL));
+    Purse Ana("Ana");
+    vector<float>moedas{2,1,0.5,0.5,0.2,0.2,0.1};
+    Ana.addCoins(moedas);
+    Ana.show();
+
+    Purse Anon;
+    for(int i=0;i<moedas.size();i++){
+        float coin = Purse::possibleCoins[rand()%Purse::possibleCoins.size()];
+        Anon.addCoin(coin);
+    }
+    Anon.show();
+    cout<<endl;
+
+    if(Ana == Anon){
+        cout<<"The purses are equal"<<endl;
+    }
+    else{
+        cout<<"the purses are not equal"<<endl;
+    }
+
+    Purse Marina("Marina");
+    Marina.addCoins({1,0.5,2,0.2,0.2,0.5,2,1});
+    Marina.removeCoin(0.2);
+    Marina.show();
+}
+
+/*---------------------------------------------------------------------------------------
+                                  h)
+eu escolheria um map<float,int>coins onde as keys seriam as moedas possíveis e os values
+seriam o numero de moedas que tinha de cada key.
+
+
+void Purse::addCoin(float coin) {
+    oldvalue = coins[coin];
+    coins.insert(make_pair(coin,oldvalue+1));
+          
+}
+---------------------------------------------------------------------------------------
+                                   2
+--------------------------------------------------------------------------------------*/
+//a)
+class Board{
+public:
+    Board(int nRows, int nCols,char val);
+    int getNumRows()const;
+    int getNumCols()const;
+    char getValueAt(int row,int col)const;
+    string getRowAt(int row)const;
+    string getColAt(int col)const;
+    bool setValAt(int row,int col,char ch);
+    void showTab()const;
+private:
+    int nRows;
+    int nCols;
+    char val;
+    vector<vector<char>>board;
+};
+
+//---------------------------------------------------------------------------------------
+//b)
+Board::Board(int nRows, int nCols, char val) {
+    this->nRows=nRows;
+    this->nCols=nCols;
+    this->val=val;
+    vector<char>line;
+    for(int x=0;x<nRows;x++){
+        for(int y=0;y<nCols;y++){
+            line.push_back(val);
+        }
+    }
+}
+//---------------------------------------------------------------------------------------
+//c)
+string Board::getColAt(int col) const {
+    string colAt;
+    for(int x=0;x<nRows;x++){
+        colAt += board[x][col-1];
+    }
+    return colAt;
+}
+//---------------------------------------------------------------------------------------
+//d)
+bool Board::testSequence(Board b, int col, char val, int n) {
+    string column = b.getColAt(col);
+    string sequence(n,val);
+    return column.find(sequence) != -1; 
+}
+
+/*---------------------------------------------------------------------------------------
+                                   3
+--------------------------------------------------------------------------------------
+a) 1 - 2
+
+b) Point::Point(int x, int y){        void setX(int x){            void setY(int y){
+      this->x=x;                         this->x=x;                   this->y=y;
+      this->y=y;                      }                            }
+   }
+
+c) 
+        template <typename T,typename U>
+        class Point{
+        public:
+            Point(T x, U y);
+            T getX(T x)const;
+            U getY(U y)const;
+        private:
+            T x;
+            U y;
+        };
+
+Point<char,int> p1('A',3);
+
+d)É possível porque a classe vector suporta iteradores do tipo RandomIterator
+  e a função reverse apenas "exige" iteradores do tipo BidirectionalIterator.
+  Chamada a reverse para inverter vec:
+  reverse(vec.begin(),vec.end());
+
+e)
+e) É possível. O problema é que os atributos de Bird ou de Fish que não 
+   sejam atributos de Animal  se perdem ao fazer a atribuição ("slicing problem"). 
+ 
+ 
+ 
+ 
+
+
+
+
