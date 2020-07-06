@@ -1,0 +1,223 @@
+/*---------------------------------------------------------------------------------------
+                                1
+-----------------------------------------------------------------------------------------*/
+//a)
+
+unsigned int countZeros(vector<int> &v) {
+    unsigned int numZeros=0;
+    for (size_t i=0; i < v.size() ; i++)
+        if (v[i] == 0) numZeros++;
+    return numZeros;
+}
+
+
+//É passado por referência (devido à presença do carater &), porém, não se justifica a forma //de passagem, uma vez que o vetor não é alterado.
+
+//-------------------------------------------------------------------------------------
+//b)
+
+string cardRankToSymbol (unsigned int rank) {
+    string names[] = {" A"," 2"," 3"," 4"," 5"," 6"," 7"," 8"," 9","10"," J"," Q"," K"};
+    if(rank>=1 && rank<=13)
+        return names[rank-1];
+    else
+        return "Invalid Card";
+}
+
+string cardRankToSymbol (unsigned int rank) {
+    map<unsigned int, string>cardranktosymnbol;
+    cardranktosymnbol.insert(make_pair(1,"A"));
+    cardranktosymnbol.insert(make_pair(2,"2"));
+    
+    if(!cardranktosymnbol[rank].empty())
+        return cardranktosymnbol[rank];
+    else
+        return "Invalid Card";
+}
+
+//-------------------------------------------------------------------------------------
+//c)
+
+template <typename T>
+int absolute(T value){
+    if(value<0)
+        return -value;
+    else
+        return value;
+}
+
+/*-------------------------------------------------------------------------------------
+//d)
+
+Como justifica o uso do qualificativo friend nas funções operator<<, operator= = e operator+?
+
+O uso desse qualificativo nessas funções justifica-se pelo facto destas acederem aos atributos private da classe String.
+
+
+Como justifica a necessidade de implementação do destrutor nesta classe?
+
+A classe String usa um pointer (char *buffer) como parâmetro, ou seja é preciso destruí-lo para libertar espaço, daí a necessidade de implementar um destrutor.
+
+
+Que outros membros-função (ou métodos) de uma classe devem, em geral, ser implementados quando é necessário implementar o destrutor?
+
+Deverão também ser implementados os métodos Copy constructor e Assignement operator.
+
+
+-----------------------------------------------------------------------------------
+                                2
+-------------------------------------------------------------------------------------*/
+//a)
+
+    ifstream f(DICTIONARY_FILENAME);
+    if(f.fail()) {
+        cerr << "Not possible to open file";
+        return 1;
+    }
+
+
+//-------------------------------------------------------------------------------------
+//b)
+
+ else{
+        while(getline(f,word)){
+            dictionary.push_back(word);
+        }
+        f.close();
+    }
+
+//-------------------------------------------------------------------------------------
+//c) O programa termina, quando não é possível abrir o ficheiro de texto, quando o 
+//   utilizador insere um argumento inválido em cin >> pattern ou quando pressiona Ctrl + Z,só 
+//   assim o loop termina e, consequentemente, o programa também. 
+
+
+
+//-------------------------------------------------------------------------------------
+//d)
+
+bool match(string pattern, string word){
+    string lowerpattern="";
+    for(int i=0;i<pattern.size();i++)
+        lowerpattern += tolower(pattern[i]);
+
+    if(pattern.size()!=word.size() || lowerpattern != word)
+        return false;
+
+    return true;
+}
+
+
+//-------------------------------------------------------------------------------------
+//e)
+
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <fstream>
+#include <cmath>
+#include <vector>
+
+
+/*-----------------------------------------------------------------------------------
+                                3
+-------------------------------------------------------------------------------------*/
+//a)
+
+Card::Card(char suit, unsigned int rank, unsigned int points, bool isFaceUp) {
+    this->suit=suit;
+    this->rank=rank;
+    this->points=points;
+    this->isFaceUp=isFaceUp;
+}
+
+//-------------------------------------------------------------------------------------
+//b)
+
+ostream& operator<<(ostream& os, const Card& card){
+    if(card.isFaceUp)
+        os <<right<<setw(4)<< cardRankToSymbol(card.rank)<<"."<<card.suit;
+    else
+        os << "xxxx";
+    return os;    
+}
+
+//-------------------------------------------------------------------------------------
+//c)
+
+unsigned int Hand::getPointsTotal() const {
+    unsigned int sum = 0;
+    int as = 0;
+
+    for (int i = 0; i < cards.size(); i++) {
+        sum += cards[i].getPoints();
+
+        if (cards[i].getRank() == 1)
+            as++;
+    }
+
+    if (sum > 21)
+        sum -= 10 * as;
+    return sum;
+}
+
+
+//-------------------------------------------------------------------------------------
+//d)
+
+
+void Hand::show() const {
+    for(const auto &carta : cards)
+        cout<<carta;
+}
+
+
+
+/*-----------------------------------------------------------------------------------
+                                4
+-------------------------------------------------------------------------------------*/
+/* a)
+
+class Purse { 
+public:
+    Purse();
+    void insertCoin(Coin Coin);
+    void insertCoins(map <Coin, int> coinsToInsert);
+    void showCoins() const;
+    double getTotalAmount() const;
+    Coin removeCoin(Coin Coin);
+    map<Coin, int> removeAmount(double amount);
+    map<Coin, int> exchangeCoin(Coin Coin);
+private:
+    map <Coin, int> Coins; //«Coin» é o tipo de moeda e «int» é o número de moedas desse tipo
+};
+
+
+
+
+//-------------------------------------------------------------------------------------
+//b)
+
+
+int main() { 
+	Purse p1;
+	Purse p2;
+
+	p1.insertCoin(Coin(2, 'E')); //insere uma moeda de 2 euros em cada um;
+	p2.insertCoin(Coin(2, 'E'));
+
+	map <Coin, int> coinsToInsert;
+
+	coinsToInsert.insert(pair <Coin, int> (Coin(10, 'C'), 5));
+	coinsToInsert.insert(pair <Coin, int>(Coin(20, 'C'), 5));
+	coinsToInsert.insert(pair <Coin, int>(Coin(50, 'C'), 1));
+	coinsToInsert.insert(pair <Coin, int>(Coin(1, 'E'), 1));
+
+	p1.insertCoins(coinsToInsert); //insere as seguintes moedas em p1: 5 moedas de 10 cêntimos, 5 moedas de 20 cêntimos, 1 moeda de 50 cêntimos e 1 moeda de 1 euro.
+	
+	p2.insertCoins(p1.exchangeCoin(p2.removeCoin(Coin(2, 'E')))); //remove a moeda de 2 euros de p2, "solicita" a p1 que troque essa moeda por moedas mais pequenas e insere estas moedas em p2.
+
+	p2.showCoins(); //mostra o conteúdo de p2.
+
+	return 0;
+}
