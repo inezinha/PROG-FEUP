@@ -1,0 +1,271 @@
+/*---------------------------------------------------------------------------------------
+                                1
+-----------------------------------------------------------------------------------------*/
+//a)
+
+unsigned int countValues(int a[], unsigned int nelem, int value) {
+    unsigned int i, count = 0;
+    for (i = 0; i <= nelem; i++)
+        if (a[i] == value)
+    count++;
+    return count;
+}
+
+//-------------------------------------------------------------------------------------
+//b)
+
+template <typename T>
+unsigned int countValues(T a[], unsigned int nelem, T value) {
+    unsigned int i, count = 0;
+    for (i = 0; i <= nelem; i++)
+        if (a[i] == value)
+    count++;
+    return count;
+}
+
+
+//---------------------------------------------------------------------------------------------------
+//c) Não é possível  escrever a declaração de variáveis num programa que usa objetos dessa 
+//   classe porque o constructer Person não tem valores atribuidos por default, logo p1 vai dar erro.
+
+//---------------------------------------------------------------------------------------------------
+//d) Em c++ não é possível comparar objetos de uma classe sem explicar ao compilador como o fazer, 
+// isto é, não é possóvel comparar sem fazer o overload do operator de comparação.
+
+
+bool operator==(const Person p1, const Person p2){
+    return (p1.getName()==p2.getName() && p1.getAge()==p2.getAge());
+}
+
+//Não seria necessário modificar nada na função, esta pode ser uma função declarada como uma função normal
+
+//-------------------------------------------------------------------------------------
+//e)
+
+class Player:public Person{
+public:
+    Player(string name, unsigned int age, string team):Person(name,age){
+        this->team=team;
+    }
+    string getTeam()const;
+private:
+    string team;
+};
+
+//-------------------------------------------------------------------------------------
+//f) Usaria um map onde cada key seria a posição no campo e os valores associados a cada
+//   key seriam os jogadores que poderiam jogar nessa posição.
+              map<string,Player>posicoes;
+
+
+/*-----------------------------------------------------------------------------------
+                                2
+-------------------------------------------------------------------------------------*/
+//a)
+
+template <typename T>
+string T_to_string(T n){
+    ostringstream outstr;
+    outstr<<n;
+    return outstr.str();
+}
+
+vector<string> convertResultList(const vector<unsigned int> &number,const vector<string> &name,const vector<float> &grade){
+    string line;
+    vector<string>lista;
+    ostringstream outstr;
+    for (int i=0;i<number.size();i++){
+        outstr<<setw(7)<<T_to_string(number[i]) << " | " <<right<<setw(20)<< name[i] << " | " << T_to_string(grade[i]);
+        line = outstr.str();
+        lista.push_back(line);
+        outstr.str("");
+    }
+    return lista;
+}
+
+
+//-------------------------------------------------------------------------------------
+//b)
+int mode(const int number[], unsigned int numElems){
+    int max_freq = 0, mode = -1;
+
+    for (int i=0; i<numElems; i++){
+        int curr_freq = 1;
+        for (int j = i+1; j<numElems-1;j++)
+            if (number[j] == number[i])
+                curr_freq ++;
+
+        if (curr_freq > max_freq){
+            max_freq = curr_freq;
+            mode = number[i];
+        }
+        else if (curr_freq == max_freq)
+            mode = max(mode, number[i]);
+    }
+    return mode;
+}
+
+
+/*-----------------------------------------------------------------------------------
+                                3
+-------------------------------------------------------------------------------------*/
+//a)
+
+Text::Text(string filename){
+    string title,author,line;
+    ifstream file(filename);
+
+    if(!file.fail()){
+
+        getline(file,title);
+        this->title=title;
+        getline(file,author);
+        this->author=author;
+
+        while(getline(file,line)){
+            text.push_back(line);
+        }
+        file.close();
+    }
+}
+
+//-------------------------------------------------------------------------------------
+//b)
+
+bool Text::existsWord(string word) {
+    string singleword;
+    if (title.find(word) || author.find(word))
+        return true;
+    for(int i=0;i<text.size();i++){
+        if(text[i].find(word))
+            return true;
+    }
+    return false;
+}
+
+
+//-------------------------------------------------------------------------------------
+//c)
+
+int main(){
+    string word,filename;
+    cout<<"Enter a word: ";cin>>word;
+    cout<<"Enter filename: ";cin>>filename;
+    Text t(filename);
+    if(t.existsWord(word)){
+        cout<<"The word "<<word<<" exists in the file "<<filename<<endl;
+    }
+    else{
+        cout<<"The word "<<word<<" does NOT exist in the file "<<filename<<endl;
+    }
+    return 0;
+}
+
+/*-----------------------------------------------------------------------------------
+                                4
+-------------------------------------------------------------------------------------*/
+//a)
+
+typedef struct {
+    string clientBI, dateBegin, dateEnd;
+} RentRecord;
+
+class Vehicle{
+public:
+    Vehicle();
+    Vehicle(string matr, string marca, string mod, RentRecord registo);
+    string getMatricula()const;
+    string getMarca()const;
+    string getModelo()const;
+    RentRecord getRegisto()const;
+private:
+    string matricula;
+    string marca;
+    string modelo;
+    RentRecord registo;
+};
+
+Vehicle::Vehicle()=default;
+
+Vehicle::Vehicle(string matr, string marca, string mod, RentRecord registo){
+    this->matricula=matr;
+    this->marca=marca;
+    this->modelo=mod;
+    this->registo=registo;
+}
+
+string Vehicle::getMatricula() const {
+    return matricula;
+}
+
+string Vehicle::getMarca() const {
+    return marca;
+}
+
+string Vehicle::getModelo() const {
+    return modelo;
+}
+
+RentRecord Vehicle::getRegisto() const {
+    return registo;
+}
+
+class Client{
+public:
+    Client();
+    Client(string bi,string name);
+    string getBI()const;
+    string getName()const;
+private:
+    string BI;
+    string name;
+};
+
+Client::Client()=default;
+
+Client::Client(string bi, string name){
+    this->BI=bi;
+    this->name=name;
+}
+
+string Client::getBI() const {
+    return BI;
+}
+
+string Client::getName() const {
+    return name;
+}
+
+int main(){
+    vector<Vehicle>carros;
+    vector<Client>clientes;
+
+    Client c1("1234", "ines sofia");
+    clientes.push_back(c1);
+    Client c2("09284", "inesoca maloca");
+    clientes.push_back(c2);
+
+    RentRecord r1{c1.getBI(), "2000-04-30", "2000-10-05"};
+    RentRecord r2{c2.getBI(), "2000-07-09", "2002-01-03"};
+
+    Vehicle v1("17-LV-00","opel","redondo",r1);
+    carros.push_back(v1);
+    Vehicle v2("00-IS-00","nissan","cascai",r2);
+    carros.push_back(v2);
+
+    return 0;
+}
+
+//-------------------------------------------------------------------------------------
+//b)
+
+vector<Vehicle>showAvailableVehicles(vector<Vehicle>carros,string data){
+    for (int i=0;i<carros.size();i++){
+        if (carros[i].getRegisto().dateEnd < data){
+            cout<<carros[i].getMatricula()<<endl;
+            cout<<carros[i].getMarca()<<endl;
+            cout<<carros[i].getModelo()<<endl;
+            cout<<endl;
+        }
+    }
+}
